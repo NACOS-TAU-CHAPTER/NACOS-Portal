@@ -138,20 +138,45 @@
   opacity: 1;
 }
 
+/* Mobile nav toggle */
+.mobile-nav-toggle {
+  font-size: 28px;
+  cursor: pointer;
+  color: #1b8c0c;
+  display: none;
+}
+
 /* Mobile responsive */
 @media (max-width: 1199px) {
-  .navmenu {
+  .navmenu ul {
     display: none;
   }
   
   .mobile-nav-toggle {
     display: block !important;
   }
+  
+  .navmenu.mobile-nav-active ul {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    right: 15px;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    z-index: 999;
+  }
 }
 
 @media (min-width: 1200px) {
   .mobile-nav-toggle {
     display: none !important;
+  }
+  
+  .navmenu ul {
+    display: flex !important;
   }
 }
 
