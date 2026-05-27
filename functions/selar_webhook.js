@@ -155,7 +155,7 @@ exports.handler = async (event, context) => {
       if (candidate && amount > 0) {
         votesToInsert.push({
           category: category,
-          candidate: candidate,
+          candidate_name: candidate,
           vote_amount: amount,
           payment_reference: reference, // Unique constraint prevents double-counting
           voter_email: transaction.customer.email,
@@ -344,7 +344,7 @@ exports.handler = async (event, context) => {
               <strong>Your Votes:</strong>
               ${votesToInsert.map(v => `
                 <div class="vote-item">
-                  <strong>${v.category.replace(/-/g, ' ').toUpperCase()}:</strong> ${v.candidate} (${v.vote_amount} vote${v.vote_amount > 1 ? 's' : ''})
+                  <strong>${v.category.replace(/-/g, ' ').toUpperCase()}:</strong> ${v.candidate_name} (${v.vote_amount} vote${v.vote_amount > 1 ? 's' : ''})
                 </div>
               `).join('')}
             </div>
