@@ -2,6 +2,39 @@ const { createClient } = require('@supabase/supabase-js');
 const crypto = require('crypto');
 
 exports.handler = async (event, context) => {
+  // SECURITY: Verify request is from Selar or has valid token
+  const allowedOrigins = ['selar.co', 'selar.com'];
+  const origin = event.headers.origin || event.headers.referer || '';
+  const authToken = event.headers['x-webhook-token'] || event.queryStringParameters?.token;
+  
+  const isFromSelar = allowedOrigins.some(domain => origin.includes(domain));
+  const hasValidToken = authToken === process.env.WEBHOOK_SECRET_TOKEN;
+  
+  // Allow requests from Selar or with valid token
+  if (!isFromSelar && !hasValidToken) {
+    console.error('Unauthorized webhook access attempt from:', origin);
+    return {
+      statusCode: 403,
+      headers: { 'Content-Type': 'text/html' },
+      body: `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Access Denied</title>
+          <style>
+            body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+            .error { color: #dc3545; font-size: 24px; margin-bottom: 20px; }
+          </style>
+        </head>
+        <body>
+          <div class="error">✗ Access Denied</div>
+          <p>This endpoint can only be accessed through authorized payment gateways.</p>
+        </body>
+        </html>
+      `
+    };
+  }
+  
   // Handle both GET (redirect) and POST (webhook) requests from Selar
   let transaction = {};
   let voteDetails = {};
