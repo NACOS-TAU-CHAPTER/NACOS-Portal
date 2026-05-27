@@ -26,7 +26,7 @@ exports.handler = async function (event, context) {
         const studentData = {
             first_name: name.split(' ')[0],
             last_name: name.split(' ').slice(1).join(' '),
-            school_email: email.toLowerCase(),
+            email: email.toLowerCase(),
             matric_number: matric_no.toUpperCase(),
             department: department || course,
             status: 'pending'

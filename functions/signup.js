@@ -44,7 +44,7 @@ exports.handler = async function (event, context) {
             .from('students')
             .insert({
                 user_id: user.id,
-                school_email: email,
+                email: email,
                 first_name,
                 last_name,
                 matric_number,

@@ -248,11 +248,24 @@
   <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
   <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
   
-  
-
+  <script src="assets/js/env.js"></script>
+<script src="config.local.js"></script>
   <script type="module" src="assets/js/supabase-config.js"></script>
   <!-- Main JS File -->
   <script src="dashboard assets/js/main.js"></script>
+  
+  <script>
+    // Safety preloader removal
+    window.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        const preloader = document.getElementById('preloader');
+        if (preloader) {
+          console.log('Safety preloader removal triggered');
+          preloader.remove();
+        }
+      }, 3000); // 3 second fallback
+    });
+  </script>
   
   <!-- Main Login Script -->
   <script type="module">
@@ -370,8 +383,9 @@
         return;
       }
       
-      // Validate email format (must be @st.tau.edu.ng)
-      const emailRegex = /^[a-zA-Z0-9._%+-]+@st\.tau\.edu\.ng$/;
+
+      // Allow both @st.tau.edu.ng and @tau.edu.ng
+const emailRegex = /^[a-zA-Z0-9._%+-]+@(st\.)?tau\.edu\.ng$/;
       if (!emailRegex.test(email)) {
         await Swal.fire({
           title: 'Invalid Email',

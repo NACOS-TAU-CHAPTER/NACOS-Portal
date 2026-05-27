@@ -1,12 +1,31 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
 
-// Use environment variables (Netlify) or window (local)
-const SUPABASE_URL = process.env.SUPABASE_URL || window.SUPABASE_URL;
-const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || window.SUPABASE_ANON_KEY;
+// Use window (set by env.js or config.local.js)
+const SUPABASE_URL = window.SUPABASE_URL;
+const SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY;
 
-if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
-    console.error('❌ Supabase configuration missing!');
-    throw new Error('Supabase configuration is required');
+if (!SUPABASE_URL || !SUPABASE_ANON_KEY || SUPABASE_URL.includes('your-project-id')) {
+    const errorMsg = '❌ Supabase configuration missing or invalid!';
+    console.error(errorMsg, { 
+        url: SUPABASE_URL, 
+        hasKey: !!SUPABASE_ANON_KEY 
+    });
+    
+    // Attempt to notify the user if we are on a page with a preloader
+    window.addEventListener('DOMContentLoaded', () => {
+        const preloader = document.getElementById('preloader');
+        if (preloader) {
+            preloader.innerHTML = `
+                <div style="color: white; text-align: center; padding: 20px; background: rgba(220, 53, 69, 0.9); border-radius: 10px;">
+                    <h3>Configuration Error</h3>
+                    <p>${errorMsg}</p>
+                    <p>Please check your <code>env.js</code> or <code>config.local.js</code> file.</p>
+                </div>
+            `;
+        }
+    });
+    
+    throw new Error(errorMsg);
 }
 
 // Create client with production settings
@@ -23,6 +42,8 @@ export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
         }
     }
 });
+
+// ... rest of your functions (checkAuth, requireAuth, etc.)
 
 // ============================================
 // HELPER: Retry Logic
@@ -130,16 +151,16 @@ export async function requireAdmin() {
     return true;
 }
 
-export async function signOut() {
+export async function signOut(redirectUrl = 'index.html') {
     try {
         await supabase.auth.signOut();
         sessionStorage.clear();
         localStorage.removeItem('supabase.auth.token');
-        window.location.href = 'admin-login.html';
+        window.location.href = redirectUrl;
     } catch (error) {
         console.error('Sign out error:', error);
         // Force redirect even if sign out fails
-        window.location.href = 'admin-login.html';
+        window.location.href = redirectUrl;
     }
 }
 

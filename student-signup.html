@@ -90,6 +90,24 @@
     .form-control.success {
       border-color: #28a745;
     }
+    /* Ensure checkbox is visible and clickable */
+    .form-check-input[type="checkbox"] {
+      -webkit-appearance: checkbox !important;
+      -moz-appearance: checkbox !important;
+      appearance: checkbox !important;
+      width: 18px !important;
+      height: 18px !important;
+      margin-top: 0;
+      cursor: pointer !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+    
+    .form-check {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
     
     .error-message {
       color: #dc3545;
@@ -128,6 +146,15 @@
       margin-top: 5px;
       font-size: 12px;
     }
+    /* Hide preloader completely */
+#preloader {
+    display: none !important;
+}
+[data-aos] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+}
     
     .strength-weak { color: #dc3545; }
     .strength-medium { color: #ffc107; }
@@ -154,17 +181,17 @@
       </div>
     </div>
     
-    <section id="starter-section" class="starter-section section">
+    <section id="starter-section" class="starter-section section" style="padding: 20px; display: flex;justify-content: center; width: 100%;">
       
       <div class="loginForm">
         <img src="assets/img/tau_logo-removebg-preview.png" class="logo-underlay" alt="TAU Logo">
-        <div class="container section-title" data-aos="fade-up">
+        <div class="container section-title">
           <h2>Sign Up</h2>
           <p>Enter details to register on the platform!</p>
           <a href="student-login.html">Already registered? <span>Click here to sign in.</span></a>
         </div>
     
-        <div class="container" data-aos="fade-up" style="margin: 0px; padding: 0px;">
+        <div class="container"  style="margin: 0px; padding: 0px;">
           <form id="signupForm">
             <div class="form-group" style="display: flex;justify-content: space-between; gap: 15px;">
               <div style="flex: 1;">
@@ -179,32 +206,22 @@
             
             <div class="form-group">
               <label for="matric_no">Matric Number:</label>
-              <input type="text" class="form-control" id="matric_no" placeholder="Enter matric number (e.g., 23/10MSC014)" required>
-              <small class="form-text text-muted">Format: XX/XXMSCXXX or similar university format</small>
+              <input type="text" class="form-control" id="matric_no" placeholder="e.g. 21/40SE001" required>
             </div>
             
             <div class="form-group">
-              <label>Department:</label>
-              <div style="padding: 2%;display: flex; gap: 20px; flex-wrap: wrap;">
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="department" id="soft_eng" value="Software Engineering" required>
-                  <label class="form-check-label" for="soft_eng">Software Engineering</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="department" id="comp_sci" value="Computer Science">
-                  <label class="form-check-label" for="comp_sci">Computer Science</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="department" id="cyber_sec" value="Cyber Security">
-                  <label class="form-check-label" for="cyber_sec">Cyber Security</label>
-                </div>
-              </div>
+              <label for="department">Department:</label>
+              <select class="form-control" id="department" name="department" required>
+                <option value="">Select your department</option>
+                <option value="Software Engineering">Software Engineering</option>
+                <option value="Computer Science">Computer Science</option>
+                <option value="Cyber Security">Cyber Security</option>
+              </select>
             </div>
             
             <div class="form-group">
-              <label for="email">Student Email:</label>
-              <input type="email" class="form-control" id="email" placeholder="Enter student email (e.g., name@st.tau.edu.ng)" required autocomplete="email">
-              <small class="form-text text-muted">Must be your official @st.tau.edu.ng email address</small>
+              <label for="email">School Email:</label>
+              <input type="email" class="form-control" id="email" placeholder="yourname@st.tau.edu.ng" required autocomplete="email">
             </div>
             
             <div class="form-group">
@@ -228,9 +245,13 @@
               </div>
             </div>
             
-            <div class="form-check checkbx form-group" style="margin-left: 0px;">
-              <input type="checkbox" class="form-check-input" id="termsCheckbox" required>
-              <label class="form-check-label" for="termsCheckbox">I agree to the <a href="#" target="_blank">Terms and Conditions</a></label>
+            <div class="form-group mb-4">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="termsCheckbox" required>
+                <label class="form-check-label" for="termsCheckbox">
+                  I agree to the <a href="terms-conditions.html" target="_blank">Terms and Conditions</a>
+                </label>
+              </div>
             </div>
             
             <div style="display: flex; justify-content: center; margin-top: 20px;">
@@ -255,23 +276,19 @@
     <div class="container footer-top" style="display: flex;justify-content: center;width: 100%;max-width: max-content;">
       <div class="row gy-4">
         <div class="col-lg-4 col-md-6 footer-about" style="width: 100%;justify-content: center;display: flex;flex-direction: column;">
-          <a href="index.html" class="logo d-flex align-items-center">
-            <span class="sitename">NACOS - TAU</span>
+          <a href="index.html" class="logo d-flex align-items-center" style="justify-content: center;">
+            <span class="sitename">NACOS TAU</span>
           </a>
-          <div class="logo d-flex align-items-center" style="justify-content: center;">
-            <img src="assets/img/nacos logo.jpg" class="img-fluid" alt="NACOS Logo" style="padding-right: 5%;max-height: 50px;">
-            <img src="assets/img/tau_logo-removebg-preview.png" alt="TAU Logo" class="img-fluid" style="max-height: 60px;">
-          </div>
           <div class="footer-contact pt-3" style="text-align: center;">
-            <p>University Drive, Off Idofin Road</p>
-            <p>Oko-Irese, Kwara State</p>
-            <p class="mt-3"><strong>Phone:</strong> <span>+234 813 624 2060</span></p>
-            <p><strong>Email:</strong> <span>nacos@tau.edu.ng</span></p>
+            <p>Thomas Adewumi University</p>
+            <p>Oko, Kwara State</p>
+            <p class="mt-3"><strong>Email:</strong> <span>nacos@tau.edu.ng</span></p>
           </div>
           <div class="social-links d-flex mt-4" style="justify-content: center;">
-            <a href="https://www.tiktok.com/@nacos_tau?is_from_webapp=1&sender_device=pc" target="_blank" rel="noopener noreferrer"><i class="bi bi-tiktok"></i></a>
-            <a href="https://www.instagram.com/nacos_tauchapter?igsh=MWw1ZTlpaWZxZnl6cA==" target="_blank" rel="noopener noreferrer"><i class="bi bi-instagram"></i></a>
-            <a href="https://www.linkedin.com/company/nacos-tauchapter/about/" target="_blank" rel="noopener noreferrer"><i class="bi bi-linkedin"></i></a>
+            <a href=""><i class="bi bi-twitter-x"></i></a>
+            <a href=""><i class="bi bi-facebook"></i></a>
+            <a href=""><i class="bi bi-instagram"></i></a>
+            <a href=""><i class="bi bi-linkedin"></i></a>
           </div>
         </div>
       </div>
@@ -286,7 +303,7 @@
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <!-- Preloader -->
-  <div id="preloader"></div>
+ 
 
   <!-- Vendor JS Files -->
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -296,10 +313,45 @@
   <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
   
   <!-- Config and Supabase -->
-  
+  <!-- <script src="assets/js/env.js"></script> -->
+  <script src="config.local.js"></script>
   <script type="module" src="assets/js/supabase-config.js"></script>
-  
   <!-- Signup Script (Direct Supabase - No Netlify Function) -->
+
+  <!-- Permanent fix for input issues -->
+<script>
+    // Run this when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        // Remove preloader if exists
+        const preloader = document.getElementById('preloader');
+        if (preloader) preloader.remove();
+        
+        // Make sure form is clickable
+        const form = document.querySelector('.loginForm');
+        if (form) {
+            form.style.pointerEvents = 'auto';
+            form.style.position = 'relative';
+            form.style.zIndex = '1000';
+        }
+        
+        // Enable all inputs but be careful with styles
+        document.querySelectorAll('input, button, select, textarea').forEach(input => {
+            input.disabled = false;
+            input.readOnly = false;
+            input.style.pointerEvents = 'auto';
+            input.style.opacity = '1';
+            
+            // Only set background for text-like inputs to avoid breaking checkboxes/radios
+            if (['text', 'password', 'email', 'number', 'tel', 'url'].includes(input.type) || input.tagName === 'SELECT' || input.tagName === 'TEXTAREA') {
+                input.style.backgroundColor = 'white';
+            }
+        });
+        
+        console.log('✅ Input fix applied');
+    });
+
+    
+</script>
   <script type="module">
     import { supabase } from './assets/js/supabase-config.js';
     
@@ -319,12 +371,15 @@
     // ============================================
     
     function validateMatricNumber(matric) {
-      const matricRegex = /^[0-9]{2}\/[0-9]{2}[A-Z]{3}[0-9]{3}$/;
-      return matricRegex.test(matric);
+      // More inclusive regex for university matric numbers
+      // Supports XX/XXMSCXXX, XXXX/XXXX, etc.
+      return matric.length >= 5;
     }
     
     function validateEmail(email) {
-      const emailRegex = /^[a-zA-Z0-9._%+-]+@st\.tau\.edu\.ng$/;
+      // Support both @st.tau.edu.ng and @tau.edu.ng for flexibility if needed, 
+      // but primarily @st.tau.edu.ng as requested
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@(st\.)?tau\.edu\.ng$/;
       return emailRegex.test(email);
     }
     
@@ -361,29 +416,32 @@
     
     function showError(element, message) {
       element.classList.add('error');
-      const existingError = element.parentElement.querySelector('.error-message');
+      let parent = element.parentElement;
+      if (element.classList.contains('form-check-input')) {
+        parent = element.closest('.form-group');
+      }
+      
+      const existingError = parent.querySelector('.error-message');
       if (existingError) existingError.remove();
+      
       const errorSpan = document.createElement('span');
       errorSpan.className = 'error-message';
+      errorSpan.setAttribute('role', 'alert'); // Accessibility
       errorSpan.textContent = message;
-      element.parentElement.appendChild(errorSpan);
+      parent.appendChild(errorSpan);
     }
     
     function clearError(element) {
       element.classList.remove('error');
-      const existingError = element.parentElement.querySelector('.error-message');
+      let parent = element.parentElement;
+      if (element.classList.contains('form-check-input')) {
+        parent = element.closest('.form-group');
+      }
+      const existingError = parent.querySelector('.error-message');
       if (existingError) existingError.remove();
     }
     
-    // Password strength indicator
-    passwordInput.addEventListener('input', () => {
-      const strength = validatePasswordStrength(passwordInput.value);
-      const strengthDiv = document.getElementById('passwordStrength');
-      strengthDiv.textContent = strength.message;
-      strengthDiv.className = `password-strength strength-${strength.level}`;
-    });
-    
-    // Live email validation
+    // Live validation
     emailInput.addEventListener('input', () => {
       if (emailInput.value.trim() && !validateEmail(emailInput.value.trim())) {
         emailInput.style.borderColor = '#dc3545';
@@ -424,17 +482,18 @@
       }
       
       // Get selected department
-      const selectedDepartment = document.querySelector('input[name="department"]:checked');
-      if (!selectedDepartment) {
-        await Swal.fire({ title: 'Missing Information', text: 'Please select your department.', icon: 'warning', confirmButtonText: 'OK' });
-        return;
-      }
+// Get selected department from dropdown
+      const department = document.getElementById('department').value;
+      if (!department) {
+      await Swal.fire({ title: 'Missing Information', text: 'Please select your department.', icon: 'warning', confirmButtonText: 'OK' });
+      return;
+}
       
       const fullName = `${firstNameInput.value.trim()} ${lastNameInput.value.trim()}`;
       const email = emailInput.value.trim().toLowerCase();
       const password = passwordInput.value;
       const matricNo = matricNoInput.value.trim().toUpperCase();
-      const department = selectedDepartment.value;
+      
       
       // Show loading state
       signupButton.disabled = true;
@@ -447,8 +506,9 @@
           password: password,
           options: {
             data: {
-              full_name: fullName,
-              matric_no: matricNo,
+              first_name: firstNameInput.value.trim(),
+              last_name: lastNameInput.value.trim(),
+              matric_number: matricNo,
               department: department
             }
           }
@@ -462,16 +522,25 @@
             .from('students')
             .insert({
               user_id: authData.user.id,
-              matric_no: matricNo,
-              name: fullName,
+              matric_number: matricNo,
+              first_name: firstNameInput.value.trim(),
+              last_name: lastNameInput.value.trim(),
               email: email,
               department: department,
-              course: department,
               status: 'pending'
             });
           
           if (insertError) {
             console.error('Insert error:', insertError);
+            // If DB insert fails, we should ideally delete the auth user or notify admin
+            // For now, show a specific error but acknowledge the account creation
+            await Swal.fire({
+              title: 'Partial Success',
+              text: 'Your account was created, but there was an issue saving your profile details. Please contact admin.',
+              icon: 'warning',
+              confirmButtonText: 'OK'
+            });
+            return;
           }
           
           await Swal.fire({
@@ -486,15 +555,9 @@
         
       } catch (err) {
         console.error('Signup error:', err);
-        
-        let errorMessage = err.message || 'An error occurred during registration.';
-        if (errorMessage.includes('User already registered')) {
-          errorMessage = 'This email is already registered. Please login instead.';
-        }
-        
         await Swal.fire({
           title: 'Registration Failed',
-          text: errorMessage,
+          text: err.message || 'An error occurred during registration. Please try again.',
           icon: 'error',
           confirmButtonText: 'OK'
         });

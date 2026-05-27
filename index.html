@@ -32,34 +32,144 @@
 
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
+  
+  <style>
+    /* Smooth scrolling for anchor links */
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    /* Active nav link styling */
+    .navmenu a.active {
+      color: #1b8c0c !important;
+      font-weight: 600;
+    }
+    
+    /* Hide preloader */
+    #preloader {
+      display: none !important;
+    }
+    
+    /* Student-only section styling (initially hidden) */
+    .student-only-section {
+      display: none;
+    }
+    
+    /* Responsive fixes */
+    @media (max-width: 768px) {
+      .hero-section h1 {
+        font-size: 1.8rem;
+      }
+      .executive-card {
+        margin-bottom: 20px;
+      }
+    }
+
+    /* Clean Navbar Styles */
+.header {
+  background: white;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  padding: 10px 0;
+}
+
+.logo img {
+  height: 45px;
+  border-radius: 8px;
+}
+
+.navmenu ul {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 5px;
+}
+
+.navmenu li {
+  list-style: none;
+}
+
+.navmenu a {
+  padding: 8px 15px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  transition: all 0.3s;
+}
+
+.navmenu a:hover,
+.navmenu a.active {
+  color: #1b8c0c;
+  background: #e8f5e9;
+  border-radius: 8px;
+}
+
+/* Dropdown menu for student resources */
+.navmenu .dropdown ul {
+  position: absolute;
+  background: white;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  padding: 10px 0;
+  min-width: 180px;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.3s;
+}
+
+.navmenu .dropdown:hover ul {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Mobile responsive */
+@media (max-width: 992px) {
+  .navmenu ul {
+    flex-direction: column;
+    background: white;
+    padding: 20px;
+  }
+  
+  .logo div span {
+    font-size: 14px;
+  }
+}
+  </style>
 </head>
 
 <body class="index-page">
 
-  <header id="header" class="header d-flex align-items-center fixed-top" style="justify-content: center;">
-    <div class="container-fluid container-xl position-relative d-flex align-items-center" style="width: 100%;display: flex;justify-content: space-around;">
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="container d-flex align-items-center justify-content-between">
 
-      <a href="index.html" class="logo d-flex align-items-center me-auto">
-        <img src="assets/img/nacos logo.jpg" alt="">
-        <h1 class="sitename"><span style="color: #1b8c0c;" id="nacos-text">Nigerian Association of Computing Students</span><br id="br"> <strong id="tau-text">Thomas Adewumi University</strong></h1>
+      <a href="index.html" class="logo d-flex align-items-center">
+        <img src="assets/img/nacos logo.jpg" alt="NACOS Logo" style="height: 45px;">
+        <div class="ms-2">
+          <span style="color: #1b8c0c; font-weight: 700;">NACOS</span>
+          <span style="font-size: 10px; display: block; color: #777;">TAU Chapter</span>
+        </div>
       </a>
 
       <nav id="navmenu" class="navmenu">
         <ul>
-          <li><a href="index.html#hero" class="active">Home</a></li>
-          <li><a href="past-questions.html">Past Questions</a></li>
-          <li><a href="timetables.html">Timetables</a></li>
-          <li><a href="resources.html">Resources</a></li>
-          <li><a href="career-paths.html">Career Paths</a></li>
-          <li><a href="index.html#events">Events</a></li>
-          <li><a href="index.html#execs">Executives</a></li>
-          <li><a href="student-login.html" id="nav-signin">Sign In</a></li>
-          <li><a href="student-dashboard.html" class="activeid="nav-dashboard" style="display: none;">Dashboard</a></li>
+          <li><a href="#hero">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#events"> Past Events</a></li>
+          <li><a href="#execs">Execs</a></li>
+          <li><a href="#pays">Payments</a></li>
+          <li id="nav-student-links" style="display: none;">
+            <a href="#">Resources <i class="bi bi-chevron-down"></i></a>
+            <ul>
+              <li><a href="past-questions.html">Past Questions</a></li>
+              <li><a href="timetables.html">Timetables</a></li>
+              <li><a href="resources.html">Resources</a></li>
+              <li><a href="career-paths.html">Career Paths</a></li>
+            </ul>
+          </li>
+          <li id="nav-signin"><a href="student-login.html">Sign In</a></li>
+          <li id="nav-dashboard" style="display: none;"><a href="student-dashboard.html">Dashboard</a></li>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
-     <!-- <a id="home-btn" class="btn-getstarted" href="student-dashboard.html" style="text-align: center;display: none;">Dashboard</a>
-      <a class="btn-getstarted" href="student-login.html" style="text-align: center;" id="signin-btn">Sign In</a> -->
 
     </div>
   </header>
@@ -76,68 +186,18 @@
           <h1 data-aos="fade-up">Welcome to Thomas Adewumi University's <br><span>Nigerian Association of Computing Students</span></h1>
           <p data-aos="fade-up" data-aos-delay="100"><em>Breeding the innovators of tomorrow's technology.</em><br></p>
           <div class="d-flex" data-aos="fade-up" data-aos-delay="200" style="padding-bottom: 2%;">
-            <!-- <a href="student-login.html" class="btn-get-started" id="signin-btn2">Sign In</a> -->
-            <a id="home-btn2" class="btn-get-started" href="student-dashboard.html" style="text-align: center;display: none;">Dashboard</a>
+            <a id="hero-signin-btn" class="btn-get-started" href="student-login.html">Sign In</a>
+            <a id="hero-dashboard-btn" class="btn-get-started" href="student-dashboard.html" style="display: none;">Dashboard</a>
           </div>
           <img src="assets/img/tau_logo-removebg-preview.png" class="img-fluid animated" alt="" data-aos="zoom-out" data-aos-delay="300">
         </div>
       </div>
-
-    </section><!-- /Hero Section -->
-
-    <!-- Featured Services Section -->
-    <!-- <section id="featured-services" class="featured-services section light-background">
-
-      <div class="container">
-
-        <div class="row gy-4">
-
-          <div class="col-xl-4 col-lg-6" data-aos="fade-up" data-aos-delay="100">
-            <div class="service-item d-flex">
-              <div class="icon flex-shrink-0"><i class="bi bi-briefcase"></i></div>
-              <div>
-                <h4 class="title"><a href="#" class="stretched-link">Lorem Ipsum</a></h4>
-                <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi</p>
-              </div>
-            </div>
-          </div>
-          
-
-          <div class="col-xl-4 col-lg-6" data-aos="fade-up" data-aos-delay="200">
-            <div class="service-item d-flex">
-              <div class="icon flex-shrink-0"><i class="bi bi-card-checklist"></i></div>
-              <div>
-                <h4 class="title"><a href="#" class="stretched-link">Dolor Sitema</a></h4>
-                <p class="description">Minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip exa</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-xl-4 col-lg-6" data-aos="fade-up" data-aos-delay="300">
-            <div class="service-item d-flex">
-              <div class="icon flex-shrink-0"><i class="bi bi-bar-chart"></i></div>
-              <div>
-                <h4 class="title"><a href="#" class="stretched-link">Sed ut perspiciatis</a></h4>
-                <p class="description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum</p>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-
-    </section>/Featured Services Section -->
+    </section>
 
     <!-- About Section -->
     <section id="about" class="about section">
-      <!-- <div class="container section-title" data-aos="fade-up">
-        <h2>About</h2>
-      </div> -->
       <div class="container">
-
         <div class="row gy-4">
-
           <div class="col-lg-6 content" data-aos="fade-up" data-aos-delay="100">
             <p class="who-we-are">Who We Are</p>
             <h3>Breeding the innovators of tomorrow's technology</h3>
@@ -154,9 +214,7 @@
                 on our campus and community as a whole.
               </span></li>
             </ul>
-            <!-- <a href="#" class="read-more"><span>Read More</span><i class="bi bi-arrow-right"></i></a> -->
           </div>
-
           <div class="col-lg-6 about-images" data-aos="fade-up" data-aos-delay="200">
             <div class="row gy-4">
               <div class="col-lg-6">
@@ -173,203 +231,27 @@
                 </div>
               </div>
             </div>
-
           </div>
-
         </div>
-
       </div>
     </section>
 
-    <!-- Clients Section -->
-    <!-- <section id="clients" class="clients section">
-
-      <div class="container" data-aos="fade-up">
-
-        <div class="row gy-4">
-
-          <div class="col-xl-2 col-md-3 col-6 client-logo">
-            <img src="assets/img/clients/client-1.png" class="img-fluid" alt="">
-          </div>
-
-          <div class="col-xl-2 col-md-3 col-6 client-logo">
-            <img src="assets/img/clients/client-2.png" class="img-fluid" alt="">
-          </div>
-
-          <div class="col-xl-2 col-md-3 col-6 client-logo">
-            <img src="assets/img/clients/client-3.png" class="img-fluid" alt="">
-          </div>
-
-          <div class="col-xl-2 col-md-3 col-6 client-logo">
-            <img src="assets/img/clients/client-4.png" class="img-fluid" alt="">
-          </div>
-
-          <div class="col-xl-2 col-md-3 col-6 client-logo">
-            <img src="assets/img/clients/client-5.png" class="img-fluid" alt="">
-          </div>
-
-          <div class="col-xl-2 col-md-3 col-6 client-logo">
-            <img src="assets/img/clients/client-6.png" class="img-fluid" alt="">
-          </div>
-
-        </div>
-
-      </div>
-
-    </section>/Clients Section -->
-
-    <!-- Features Section -->
-    <!-- <section id="features" class="features section">
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Features</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-      </div>
-
-      <div class="container">
-        <div class="row justify-content-between">
-
-          <div class="col-lg-5 d-flex align-items-center">
-
-            <ul class="nav nav-tabs" data-aos="fade-up" data-aos-delay="100">
-              <li class="nav-item">
-                <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#features-tab-1">
-                  <i class="bi bi-binoculars"></i>
-                  <div>
-                    <h4 class="d-none d-lg-block">Modi sit est dela pireda nest</h4>
-                    <p>
-                      Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                      velit esse cillum dolore eu fugiat nulla pariatur
-                    </p>
-                  </div>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" data-bs-target="#features-tab-2">
-                  <i class="bi bi-box-seam"></i>
-                  <div>
-                    <h4 class="d-none d-lg-block">Unde praesenti mara setra le</h4>
-                    <p>
-                      Recusandae atque nihil. Delectus vitae non similique magnam molestiae sapiente similique
-                      tenetur aut voluptates sed voluptas ipsum voluptas
-                    </p>
-                  </div>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" data-bs-target="#features-tab-3">
-                  <i class="bi bi-brightness-high"></i>
-                  <div>
-                    <h4 class="d-none d-lg-block">Pariatur explica nitro dela</h4>
-                    <p>
-                      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-                      Debitis nulla est maxime voluptas dolor aut
-                    </p>
-                  </div>
-                </a>
-              </li>
-            </ul>
-
-          </div>
-
-          <div class="col-lg-6">
-
-            <div class="tab-content" data-aos="fade-up" data-aos-delay="200">
-
-              <div class="tab-pane fade active show" id="features-tab-1">
-                <img src="assets/img/tabs-1.jpg" alt="" class="img-fluid">
-              </div>
-
-              <div class="tab-pane fade" id="features-tab-2">
-                <img src="assets/img/tabs-2.jpg" alt="" class="img-fluid">
-              </div>
-
-              <div class="tab-pane fade" id="features-tab-3">
-                <img src="assets/img/tabs-3.jpg" alt="" class="img-fluid">
-              </div>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </section>/Features Section -->
-
-    <!-- Features Details Section -->
-    <!-- <section id="features-details" class="features-details section">
-
-      <div class="container">
-
-        <div class="row gy-4 justify-content-between features-item">
-
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
-            <img src="assets/img/features-1.jpg" class="img-fluid" alt="">
-          </div>
-
-          <div class="col-lg-5 d-flex align-items-center" data-aos="fade-up" data-aos-delay="200">
-            <div class="content">
-              <h3>Corporis temporibus maiores provident</h3>
-              <p>
-                Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.
-              </p>
-              <a href="#" class="btn more-btn">Learn More</a>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="row gy-4 justify-content-between features-item">
-
-          <div class="col-lg-5 d-flex align-items-center order-2 order-lg-1" data-aos="fade-up" data-aos-delay="100">
-
-            <div class="content">
-              <h3>Neque ipsum omnis sapiente quod quia dicta</h3>
-              <p>
-                Quidem qui dolore incidunt aut. In assumenda harum id iusto lorena plasico mares
-              </p>
-              <ul>
-                <li><i class="bi bi-easel flex-shrink-0"></i> Et corporis ea eveniet ducimus.</li>
-                <li><i class="bi bi-patch-check flex-shrink-0"></i> Exercitationem dolorem sapiente.</li>
-                <li><i class="bi bi-brightness-high flex-shrink-0"></i> Veniam quia modi magnam.</li>
-              </ul>
-              <p></p>
-              <a href="#" class="btn more-btn">Learn More</a>
-            </div>
-
-          </div>
-
-          <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-up" data-aos-delay="200">
-            <img src="assets/img/features-2.jpg" class="img-fluid" alt="">
-          </div>
-
-        </div>
-
-      </div>
-
-    </section>/Features Details Section -->
-
-    <!-- Events -->
+    <!-- Events Section (Public - Always Visible) -->
     <section id="events" class="services section light-background">
-
-      
       <div class="container section-title" data-aos="fade-up">
-        <h2>Events</h2>
+        <h2> Past Events</h2>
         <p>View highlights from some of our exciting events!</p>
       </div>
 
       <div class="container">
-
         <div class="row g-5">
-
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100" style="width: 100%;">
             <div class="service-item item-cyan position-relative">
               <img src="assets/img/hangout.png" class="img-fluid icon" alt="" style="border: none;">
               <div>
                 <h3>Unwind and Connect</h3>
                 <p><em><i class="bi bi-check-circle"></i> 15th February 2025</em></p>
-                <a href="https://nacostauchapter.pixieset.com/unwindandconnect25/" class="read-more stretched-link" id="rsvp-link">View Gallery<i class="bi bi-arrow-right"></i></a>
+                <a href="https://nacostauchapter.pixieset.com/unwindandconnect25/" class="read-more stretched-link" target="_blank">View Gallery<i class="bi bi-arrow-right"></i></a>
               </div>
             </div>
           </div>
@@ -379,212 +261,91 @@
               <div>
                 <h3>Symposium: The Age of Artificial Intelligence (PART I) </h3>
                 <p><em><i class="bi bi-check-circle"></i> 2nd June 2025</em></p>
-                <a href="" class="read-more stretched-link" id="rsvp-link">See Details <i class="bi bi-arrow-right"></i></a>
+                <a href="#" class="read-more stretched-link" onclick="Swal.fire('Coming Soon!', 'More details will be announced soon.', 'info')">See Details <i class="bi bi-arrow-right"></i></a>
               </div>
             </div>
           </div>
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100" style="width: 100%; cursor: pointer;">
             <div class="service-item item-cyan position-relative">
               <img src="assets/img/events/NACOS Week Flyer.png" class="img-fluid icon" alt="" style="border: none;">
-              <div class="accordion"  id="accordionExample">
-                <div >
+              <div class="accordion" id="accordionExample">
+                <div>
                   <h3 class="accordion-header">NACOS Week</h3>
-                  <!-- <button class="accordion-button"></button> -->
-                  <p ><em><i class="bi bi-check-circle"></i>  16th June - 20th June 2025 </em></p>
-                  <a class="read-more stretched-link " id="rsvp-link" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"></a>
+                  <p><em><i class="bi bi-check-circle"></i> 16th June - 20th June 2025 </em></p>
+                  <a class="read-more stretched-link" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">View Details <i class="bi bi-arrow-right"></i></a>
                   <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-                  
-                  <div class="accordion-body">
-                    <div class="col-lg-6 pt-4" data-aos="fade-up" data-aos-delay="100" style="width: 100%; cursor:pointer ;">
-                                <div class="service-item item-cyan position-relative">
-                                  <img src="assets/img/events/pt 2.jpg" class="img-fluid icon" alt="" style="border: none;">
-                                  <div>
-                                    <h3>Day 1:  Symposium: The Age of Artificial Intelligence (PART II) </h3>
-                                    <p><em><i class="bi bi-check-circle"></i> 16th June 2025</em></p>
-                                    <a href="https://nacostauchapter.pixieset.com/nacosweek/" class="read-more stretched-link" id="rsvp-link">View Gallery <i class="bi bi-arrow-right"></i></a>
-                                  </div>
-                                </div>
-                    </div>
-                    <div class="col-lg-6 pt-4" data-aos="fade-up" data-aos-delay="100" style="width: 100%; cursor:pointer ;">
-                                <div class="service-item item-cyan position-relative">
-                                  <img src="assets/img/events/scrrr.jpg" class="img-fluid icon" alt="" style="border: none;">
-                                  <div>
-                                    <h3>Day 2:  Bootcamp 🤖 - Coding with Scratch </h3>
-                                    <p><em><i class="bi bi-check-circle"></i> 17th June 2025</em></p>
-                                    <a href="https://nacostauchapter.pixieset.com/nacosweekdaytwo/" class="read-more stretched-link" id="rsvp-link">View Gallery <i class="bi bi-arrow-right"></i></a>
-                                  </div>
-                                </div>
-                    </div>
-                    <div class="col-lg-6 pt-4" data-aos="fade-up" data-aos-delay="100" style="width: 100%; cursor:pointer ;">
-                                <div class="service-item item-cyan position-relative">
-                                  <img src="assets/img/events/gamee.jpg" class="img-fluid icon" alt="" style="border: none;">
-                                  <div>
-                                    <h3>Day 3:  Sport Day 🏅  &  Game Night🎮 </h3>
-                                    <p><em><i class="bi bi-check-circle"></i> 18th June 2025</em></p>
-                                    <a href="https://nacostauchapter.pixieset.com/daythreesportsday/" class="read-more stretched-link" id="rsvp-link">View Gallery <i class="bi bi-arrow-right"></i></a>
-                                  </div>
-                                </div>
-                    </div>
-                    <div class="col-lg-6 pt-4" data-aos="fade-up" data-aos-delay="100" style="width: 100%; cursor:pointer ;">
-                                <div class="service-item item-cyan position-relative">
-                                  <img src="assets/img/events/hackk.jpg" class="img-fluid icon" alt="" style="border: none;">
-                                  <div>
-                                    <h3>Day 4: Hackathon 💻 </h3>
-                                    <p><em><i class="bi bi-check-circle"></i> 19th June 2025</em></p>
-                                    <a href="https://nacostauchapter.pixieset.com/daythreesportsday/" class="read-more stretched-link" id="rsvp-link">View Gallery <i class="bi bi-arrow-right"></i></a>
-                                  </div>
-                                </div>
-                    </div>
-                    <div class="col-lg-6 pt-4" data-aos="fade-up" data-aos-delay="100" style="width: 100%; cursor:pointer ;">
-                                <div class="service-item item-cyan position-relative">
-                                  <img src="assets/img/events/futureee.jpg" class="img-fluid icon" alt="" style="border: none;">
-                                  <div>
-                                    <h3>Day 5: Dinner - The Future <span class="" style="text-decoration: line-through;">Today</span>, Tonight! 🥂</h3>
-                                    <p><em><i class="bi bi-check-circle"></i> 20th June 2025</em></p>
-                                    <a href="https://nacostauchapter.pixieset.com/dayfivethefuturetonight/" class="read-more stretched-link" id="rsvp-link">View Gallery <i class="bi bi-arrow-right"></i></a>
-                                  </div>
-                                </div>
+                    <div class="accordion-body">
+                      <!-- NACOS Week Sub-events -->
+                      <div class="col-lg-6 pt-4" style="width: 100%; cursor:pointer;">
+                        <div class="service-item item-cyan position-relative">
+                          <img src="assets/img/events/pt 2.jpg" class="img-fluid icon" alt="" style="border: none;">
+                          <div>
+                            <h3>Day 1: Symposium: The Age of Artificial Intelligence (PART II) </h3>
+                            <p><em><i class="bi bi-check-circle"></i> 16th June 2025</em></p>
+                            <a href="https://nacostauchapter.pixieset.com/nacosweek/" class="read-more stretched-link" target="_blank">View Gallery <i class="bi bi-arrow-right"></i></a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-6 pt-4" style="width: 100%; cursor:pointer;">
+                        <div class="service-item item-cyan position-relative">
+                          <img src="assets/img/events/scrrr.jpg" class="img-fluid icon" alt="" style="border: none;">
+                          <div>
+                            <h3>Day 2: Bootcamp 🤖 - Coding with Scratch </h3>
+                            <p><em><i class="bi bi-check-circle"></i> 17th June 2025</em></p>
+                            <a href="https://nacostauchapter.pixieset.com/nacosweekdaytwo/" class="read-more stretched-link" target="_blank">View Gallery <i class="bi bi-arrow-right"></i></a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-6 pt-4" style="width: 100%; cursor:pointer;">
+                        <div class="service-item item-cyan position-relative">
+                          <img src="assets/img/events/gamee.jpg" class="img-fluid icon" alt="" style="border: none;">
+                          <div>
+                            <h3>Day 3: Sport Day 🏅 & Game Night🎮 </h3>
+                            <p><em><i class="bi bi-check-circle"></i> 18th June 2025</em></p>
+                            <a href="https://nacostauchapter.pixieset.com/daythreesportsday/" class="read-more stretched-link" target="_blank">View Gallery <i class="bi bi-arrow-right"></i></a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-6 pt-4" style="width: 100%; cursor:pointer;">
+                        <div class="service-item item-cyan position-relative">
+                          <img src="assets/img/events/hackk.jpg" class="img-fluid icon" alt="" style="border: none;">
+                          <div>
+                            <h3>Day 4: Hackathon 💻 </h3>
+                            <p><em><i class="bi bi-check-circle"></i> 19th June 2025</em></p>
+                            <a href="https://nacostauchapter.pixieset.com/daythreesportsday/" class="read-more stretched-link" target="_blank">View Gallery <i class="bi bi-arrow-right"></i></a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-6 pt-4" style="width: 100%; cursor:pointer;">
+                        <div class="service-item item-cyan position-relative">
+                          <img src="assets/img/events/futureee.jpg" class="img-fluid icon" alt="" style="border: none;">
+                          <div>
+                            <h3>Day 5: Dinner - The Future <span class="" style="text-decoration: line-through;">Today</span>, Tonight! 🥂</h3>
+                            <p><em><i class="bi bi-check-circle"></i> 20th June 2025</em></p>
+                            <a href="https://nacostauchapter.pixieset.com/dayfivethefuturetonight/" class="read-more stretched-link" target="_blank">View Gallery <i class="bi bi-arrow-right"></i></a>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
-    </div>
-
                 </div>
               </div>
             </div>
           </div>
-
-          <!-- <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
-            <div class="service-item item-orange position-relative">
-              <i class="bi bi-broadcast icon"></i>
-              <div>
-                <h3>Eosle Commodi</h3>
-                <p>Ut autem aut autem non a. Sint sint sit facilis nam iusto sint. Libero corrupti neque eum hic non ut nesciunt dolorem.</p>
-                <a href="#" class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
-            <div class="service-item item-teal position-relative">
-              <i class="bi bi-easel icon"></i>
-              <div>
-                <h3>Ledo Markt</h3>
-                <p>Ut excepturi voluptatem nisi sed. Quidem fuga consequatur. Minus ea aut. Vel qui id voluptas adipisci eos earum corrupti.</p>
-                <a href="#" class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
-            <div class="service-item item-red position-relative">
-              <i class="bi bi-bounding-box-circles icon"></i>
-              <div>
-                <h3>Asperiores Commodi</h3>
-                <p>Non et temporibus minus omnis sed dolor esse consequatur. Cupiditate sed error ea fuga sit provident adipisci neque.</p>
-                <a href="#" class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="500">
-            <div class="service-item item-indigo position-relative">
-              <i class="bi bi-calendar4-week icon"></i>
-              <div>
-                <h3>Velit Doloremque.</h3>
-                <p>Cumque et suscipit saepe. Est maiores autem enim facilis ut aut ipsam corporis aut. Sed animi at autem alias eius labore.</p>
-                <a href="#" class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="600">
-            <div class="service-item item-pink position-relative">
-              <i class="bi bi-chat-square-text icon"></i>
-              <div>
-                <h3>Dolori Architecto</h3>
-                <p>Hic molestias ea quibusdam eos. Fugiat enim doloremque aut neque non et debitis iure. Corrupti recusandae ducimus enim.</p>
-                <a href="#" class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a>
-              </div>
-            </div>
-          </div> -->
-
         </div>
-
       </div>
-
     </section>
 
-    <!-- More Features Section -->
-    <!-- <section id="more-features" class="more-features section">
-
-      <div class="container">
-
-        <div class="row justify-content-around gy-4">
-
-          <div class="col-lg-6 d-flex flex-column justify-content-center order-2 order-lg-1" data-aos="fade-up" data-aos-delay="100">
-            <h3>Enim quis est voluptatibus aliquid consequatur</h3>
-            <p>Esse voluptas cumque vel exercitationem. Reiciendis est hic accusamus. Non ipsam et sed minima temporibus laudantium. Soluta voluptate sed facere corporis dolores excepturi</p>
-
-            <div class="row">
-
-              <div class="col-lg-6 icon-box d-flex">
-                <i class="bi bi-easel flex-shrink-0"></i>
-                <div>
-                  <h4>Lorem Ipsum</h4>
-                  <p>Voluptatum deleniti atque corrupti quos dolores et quas molestias </p>
-                </div>
-              </div>
-
-              <div class="col-lg-6 icon-box d-flex">
-                <i class="bi bi-patch-check flex-shrink-0"></i>
-                <div>
-                  <h4>Nemo Enim</h4>
-                  <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiise</p>
-                </div>
-              </div>
-
-              <div class="col-lg-6 icon-box d-flex">
-                <i class="bi bi-brightness-high flex-shrink-0"></i>
-                <div>
-                  <h4>Dine Pad</h4>
-                  <p>Explicabo est voluptatum asperiores consequatur magnam. Et veritatis odit</p>
-                </div>
-              </div>
-
-              <div class="col-lg-6 icon-box d-flex">
-                <i class="bi bi-brightness-high flex-shrink-0"></i>
-                <div>
-                  <h4>Tride clov</h4>
-                  <p>Est voluptatem labore deleniti quis a delectus et. Saepe dolorem libero sit</p>
-                </div>
-              </div>
-
-            </div>
-
-          </div>
-
-          <div class="features-image col-lg-5 order-1 order-lg-2" data-aos="fade-up" data-aos-delay="200">
-            <img src="assets/img/features-3.jpg" alt="">
-          </div>
-
-        </div>
-
-      </div>
-
-    </section>/More Features Section -->
-
-    <!-- Executives -->
+    <!-- Executives Section (Public - Always Visible) -->
     <section id="execs" class="pricing section">
-
-      
       <div class="container section-title" data-aos="fade-up">
         <h2>Executives</h2>
         <p>With a versatile and hardworking team of executives, we're glad to be led by some of the brightest minds on campus!</p>
       </div>
 
       <div class="container">
-
         <div class="row gy-4">
+          <!-- All your executive cards (kept exactly as you had them) -->
           <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="100">
             <div class="pricing-item">
               <img class="img-fluid passport" src="#" alt="" style="padding-bottom: 5%;">
@@ -641,14 +402,14 @@
               <a href="www.linkedin.com/in/olufemi-abiodun-gbolahan-543aa52a4" class="cta-btn">LinkedIn<i class="bi bi-linkedin" style="opacity: 0.5;color: #1b8c0c;padding-left: 5px;"></i></a>
             </div>
           </div>
-           <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="100">
+          <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="100">
             <div class="pricing-item">
               <img class="img-fluid passport" src="" alt="" style="padding-bottom: 5%;">
               <h3 style="font-size: large;"><strong> Anifowoshe Khadijah</strong></h3>
               <p class="description"><span style="color: #1b8c0c;"><em>Financial Secretary</em></span></p>
               <a href="https://www.linkedin.com/in/anifowoshe-khadijah-292299271/" class="cta-btn">LinkedIn<i class="bi bi-linkedin" style="opacity: 0.5;color: #1b8c0c;padding-left: 5px;"></i></a>
             </div>
-          </div> 
+          </div>
           <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="100">
             <div class="pricing-item">
               <img class="img-fluid passport" src="" alt="" style="padding-bottom: 5%;">
@@ -657,14 +418,6 @@
               <a href="https://www.linkedin.com/in/olawuyi-marvelous-505960401" class="cta-btn">LinkedIn<i class="bi bi-linkedin" style="opacity: 0.5;color: #1b8c0c;padding-left: 5px;"></i></a>
             </div>
           </div>
-          <!-- <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="100">
-            <div class="pricing-item">
-              <img class="img-fluid passport" src="assets/img/removed-bg/nonso.png" alt="" style="padding-bottom: 5%;">
-              <h3 style="font-size: large;"><strong>Samuel Ayoluwa Adetunji</strong></h3>
-              <p class="description"><span style="color: #1b8c0c;"><em>Welfare Director</em></span></p>
-              <a href="https://www.linkedin.com/in/adegboyegatolulope?" class="cta-btn">LinkedIn<i class="bi bi-linkedin" style="opacity: 0.5;color: #1b8c0c;padding-left: 5px;"></i></a>
-            </div> 
-          </div>-->
           <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="100">
             <div class="pricing-item">
               <img class="img-fluid passport" src="" alt="" style="padding-bottom: 5%;">
@@ -673,7 +426,6 @@
               <a href="https://www.linkedin.com/in/adegboyegatolulope?" class="cta-btn">LinkedIn<i class="bi bi-linkedin" style="opacity: 0.5;color: #1b8c0c;padding-left: 5px;"></i></a>
             </div>
           </div>
-         
           <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="100">
             <div class="pricing-item">
               <img class="img-fluid passport" src="#" alt="" style="padding-bottom: 5%;">
@@ -682,463 +434,63 @@
               <a href="https://www.linkedin.com/in/olajide-peter-b55108275/" class="cta-btn">LinkedIn<i class="bi bi-linkedin" style="opacity: 0.5;color: #1b8c0c;padding-left: 5px;"></i></a>
             </div>
           </div>
-
-           <!-- <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="100">
-            <div class="pricing-item">
-              <img class="img-fluid passport" src="assets/img/removed-bg/siju.png" alt="" style="padding-bottom: 5%;">
-              <h3 style="font-size: large;"><strong>Sijuwade Michael Adebisi</strong></h3>
-              <p class="description"><span style="color: #1b8c0c;"><em>Social Director</em></span></p>
-              <a href="http://www.linkedin.com/in/sijuwade-adebisi-7509452ab" class="cta-btn">LinkedIn<i class="bi bi-linkedin" style="opacity: 0.5;color: #1b8c0c;padding-left: 5px;"></i></a>
-            </div> 
-          </div>-->
-
         </div>
-
       </div>
-
     </section>
 
+    <!-- Payments Section (Public - Always Visible) -->
     <section id="pays" class="services section light-background">
-
-      
       <div class="container section-title" data-aos="fade-up">
         <h2>Payments</h2>
         <p>Make your payments easily and securely.</p>
       </div>
 
       <div class="container">
-
         <div class="row g-5">
-
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100" style="width: 100%;">
             <div class="service-item item-cyan position-relative">
               <div class="justify-content-center align-items-center d-flex flex-column" style="margin: auto;">
                 <img src="assets/img/cash_image.png" class="img-fluid icon" alt="" style="border: none; width: 20%; height: 50%;">
-              <div>
-                <h3 class="" style="display: flex; margin: auto; justify-content: center; align-items: center;">Account Details</h3>
                 <div>
-                  <p>Account Number: 
-                    <strong style="padding-right: 2%">0118670866   </strong>
-                     <i class="bi bi-copy" 
-                              id="accountNumberIcon" 
-                              style="cursor: pointer; font-size: larger;" 
-                              onclick="copyToClipboard()">
-                            </i>
-                            <i class="bi bi-check-circle" 
-                              id="copyMsg" 
-                              style="display: none; color: green; margin-left: 10px;">
-                              Copied to clipboard
-                            </i>
-
-                            <script>
-                              function copyToClipboard() {
-                                const copyIcon = document.getElementById('accountNumberIcon');
-                                const msg = document.getElementById('copyMsg');
-
-                                navigator.clipboard.writeText('0118670866').then(() => {
-                                  copyIcon.style.display = 'none';
-                                  msg.style.display = 'inline';
-                                  setTimeout(() => {
-                                    msg.style.display = 'none';
-                                    copyIcon.style.display = 'inline';
-                                  }, 4000); // Show message for 2 seconds
-                                });
-                              }
-                            </script>
-
-                  </p>
-                </div>
-                <p>Account Name:    <strong>Nigerian Association of Computing Students - TAU</strong></p>
-                <p>Bank:            <strong>Sterling Bank</strong></p>
-                <p>Amount For Association Members: <strong>N25,000</strong></p>
-                <!-- <p>Amount For Non-Association Members: <strong>N2,000</strong></p> --> 
-                <p>Note: <strong>Please include your full name, matric number and purpose of payment as the payment reference.</strong></p>
-                <small style="display: flex; margin: auto; justify-content: center; align-items: center;"><em>Payment Reference: <strong>NACOS-TAU | 11/22TAU33 | Association Fee</strong></em></small>
-
-                <!-- <a href="student-login.html" class="read-more stretched-link" id="rsvp-link">See Details <i class="bi bi-arrow-right"></i></a> -->
-
-
-
-                <!-- <div class="" style="padding-top: 10%;">
+                  <h3 class="" style="display: flex; margin: auto; justify-content: center; align-items: center;">Account Details</h3>
                   <div>
-                    <h5>Please kindly fill the form related to the payment made. Thank you!</h5>
-                    <p><strong><a href="https://forms.gle/RX6Lr6fzjdwtJqgj7">Association Fee</a></strong> </p>
-                    <p><strong><a href="https://forms.gle/HUeF64db92gGM3Uw8">Dinner Fee</a></strong> </p>
-                    
-                  </div> -->
+                    <p>Account Number: 
+                      <strong style="padding-right: 2%">0118670866</strong>
+                      <i class="bi bi-copy" id="accountNumberIcon" style="cursor: pointer; font-size: larger;" onclick="copyToClipboard()"></i>
+                      <i class="bi bi-check-circle" id="copyMsg" style="display: none; color: green; margin-left: 10px;">Copied to clipboard</i>
+                    </p>
+                  </div>
+                  <p>Account Name: <strong>Nigerian Association of Computing Students - TAU</strong></p>
+                  <p>Bank: <strong>Sterling Bank</strong></p>
+                  <p>Amount For Association Members: <strong>N25,000</strong></p>
+                  <p>Note: <strong>Please include your full name, matric number and purpose of payment as the payment reference.</strong></p>
+                  <small style="display: flex; margin: auto; justify-content: center; align-items: center;"><em>Payment Reference: <strong>NACOS-TAU | Your Matric Number | Association Fee</strong></em></small>
+
                   <br>
                   <hr>
-                  <div >
-                    <!-- style="text-align: right;" -->
+                  <div>
                     <strong>For any inquiries, please reach out through: </strong>
                     <p class="contact-info">
                       <a href="mailto:nacos@tau.edu.ng" target="_blank">nacos@tau.edu.ng</a> <br>
                       <a href="https://wa.me/08144379626" target="_blank">The President</a> <br>
-                      <a href="https://wa.me/09167566489" target="_blank">The Vice president </a><br>
+                      <a href="https://wa.me/09167566489" target="_blank">The Vice President </a><br>
                       <a href="https://wa.me/08028756004" target="_blank">The General Secretary</a> <br>
-                      <a href="https://wa.me/08130383123" target="_blank">The Asst. General Secretary</a>
+                      <a href="https://wa.me/08130383123" target="_blank">The Asst. General Secretary</a><br>
                       <a href="https://wa.me/08166826137" target="_blank">The Software Director</a><br>
                       <a href="https://wa.me/08126398496" target="_blank">The Asst. Software Director </a><br>
                     </p>
-
                   </div>
                 </div>
-
-              </div>
               </div>
             </div>
           </div>
-
-          <!-- <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
-            <div class="service-item item-orange position-relative">
-              <i class="bi bi-broadcast icon"></i>
-              <div>
-                <h3>Eosle Commodi</h3>
-                <p>Ut autem aut autem non a. Sint sint sit facilis nam iusto sint. Libero corrupti neque eum hic non ut nesciunt dolorem.</p>
-                <a href="#" class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
-            <div class="service-item item-teal position-relative">
-              <i class="bi bi-easel icon"></i>
-              <div>
-                <h3>Ledo Markt</h3>
-                <p>Ut excepturi voluptatem nisi sed. Quidem fuga consequatur. Minus ea aut. Vel qui id voluptas adipisci eos earum corrupti.</p>
-                <a href="#" class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
-            <div class="service-item item-red position-relative">
-              <i class="bi bi-bounding-box-circles icon"></i>
-              <div>
-                <h3>Asperiores Commodi</h3>
-                <p>Non et temporibus minus omnis sed dolor esse consequatur. Cupiditate sed error ea fuga sit provident adipisci neque.</p>
-                <a href="#" class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="500">
-            <div class="service-item item-indigo position-relative">
-              <i class="bi bi-calendar4-week icon"></i>
-              <div>
-                <h3>Velit Doloremque.</h3>
-                <p>Cumque et suscipit saepe. Est maiores autem enim facilis ut aut ipsam corporis aut. Sed animi at autem alias eius labore.</p>
-                <a href="#" class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="600">
-            <div class="service-item item-pink position-relative">
-              <i class="bi bi-chat-square-text icon"></i>
-              <div>
-                <h3>Dolori Architecto</h3>
-                <p>Hic molestias ea quibusdam eos. Fugiat enim doloremque aut neque non et debitis iure. Corrupti recusandae ducimus enim.</p>
-                <a href="#" class="read-more stretched-link">Learn More <i class="bi bi-arrow-right"></i></a>
-              </div>
-            </div>
-          </div> -->
-
         </div>
-
       </div>
-
     </section>
-
-
-
-    <!-- Faq Section -->
-    <!-- <section id="faq" class="faq section">
-
-      
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Frequently Asked Questions</h2>
-      </div>
-
-      <div class="container">
-
-        <div class="row justify-content-center">
-
-          <div class="col-lg-10" data-aos="fade-up" data-aos-delay="100">
-
-            <div class="faq-container">
-
-              <div class="faq-item faq-active">
-                <h3>Non consectetur a erat nam at lectus urna duis?</h3>
-                <div class="faq-content">
-                  <p>Feugiat pretium nibh ipsum consequat. Tempus iaculis urna id volutpat lacus laoreet non curabitur gravida. Venenatis lectus magna fringilla urna porttitor rhoncus dolor purus non.</p>
-                </div>
-                <i class="faq-toggle bi bi-chevron-right"></i>
-              </div>
-
-              <div class="faq-item">
-                <h3>Feugiat scelerisque varius morbi enim nunc faucibus?</h3>
-                <div class="faq-content">
-                  <p>Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id interdum velit laoreet id donec ultrices. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Est pellentesque elit ullamcorper dignissim. Mauris ultrices eros in cursus turpis massa tincidunt dui.</p>
-                </div>
-                <i class="faq-toggle bi bi-chevron-right"></i>
-              </div>
-
-              <div class="faq-item">
-                <h3>Dolor sit amet consectetur adipiscing elit pellentesque?</h3>
-                <div class="faq-content">
-                  <p>Eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis orci. Faucibus pulvinar elementum integer enim. Sem nulla pharetra diam sit amet nisl suscipit. Rutrum tellus pellentesque eu tincidunt. Lectus urna duis convallis convallis tellus. Urna molestie at elementum eu facilisis sed odio morbi quis</p>
-                </div>
-                <i class="faq-toggle bi bi-chevron-right"></i>
-              </div>
-
-              <div class="faq-item">
-                <h3>Ac odio tempor orci dapibus. Aliquam eleifend mi in nulla?</h3>
-                <div class="faq-content">
-                  <p>Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id interdum velit laoreet id donec ultrices. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Est pellentesque elit ullamcorper dignissim. Mauris ultrices eros in cursus turpis massa tincidunt dui.</p>
-                </div>
-                <i class="faq-toggle bi bi-chevron-right"></i>
-              </div>
-
-              <div class="faq-item">
-                <h3>Tempus quam pellentesque nec nam aliquam sem et tortor?</h3>
-                <div class="faq-content">
-                  <p>Molestie a iaculis at erat pellentesque adipiscing commodo. Dignissim suspendisse in est ante in. Nunc vel risus commodo viverra maecenas accumsan. Sit amet nisl suscipit adipiscing bibendum est. Purus gravida quis blandit turpis cursus in</p>
-                </div>
-                <i class="faq-toggle bi bi-chevron-right"></i>
-              </div>
-
-              <div class="faq-item">
-                <h3>Perspiciatis quod quo quos nulla quo illum ullam?</h3>
-                <div class="faq-content">
-                  <p>Enim ea facilis quaerat voluptas quidem et dolorem. Quis et consequatur non sed in suscipit sequi. Distinctio ipsam dolore et.</p>
-                </div>
-                <i class="faq-toggle bi bi-chevron-right"></i>
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </section>/Faq Section -->
-
-    <!-- Testimonials Section -->
-    <!-- <section id="testimonials" class="testimonials section light-background">
-
-      
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Testimonials</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-      </div>
-
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-        <div class="swiper init-swiper">
-          <script type="application/json" class="swiper-config">
-            {
-              "loop": true,
-              "speed": 600,
-              "autoplay": {
-                "delay": 5000
-              },
-              "slidesPerView": "auto",
-              "pagination": {
-                "el": ".swiper-pagination",
-                "type": "bullets",
-                "clickable": true
-              },
-              "breakpoints": {
-                "320": {
-                  "slidesPerView": 1,
-                  "spaceBetween": 40
-                },
-                "1200": {
-                  "slidesPerView": 3,
-                  "spaceBetween": 1
-                }
-              }
-            }
-          </script>
-          <div class="swiper-wrapper">
-
-            <div class="swiper-slide">
-              <div class="testimonial-item">
-                <div class="stars">
-                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                </div>
-                <p>
-                  Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper.
-                </p>
-                <div class="profile mt-auto">
-                  <img src="assets/img/testimonials/testimonials-1.jpg" class="testimonial-img" alt="">
-                  <h3>Saul Goodman</h3>
-                  <h4>Ceo &amp; Founder</h4>
-                </div>
-              </div>
-            </div>
-
-            <div class="swiper-slide">
-              <div class="testimonial-item">
-                <div class="stars">
-                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                </div>
-                <p>
-                  Export tempor illum tamen malis malis eram quae irure esse labore quem cillum quid cillum eram malis quorum velit fore eram velit sunt aliqua noster fugiat irure amet legam anim culpa.
-                </p>
-                <div class="profile mt-auto">
-                  <img src="assets/img/testimonials/testimonials-2.jpg" class="testimonial-img" alt="">
-                  <h3>Sara Wilsson</h3>
-                  <h4>Designer</h4>
-                </div>
-              </div>
-            </div>
-
-            <div class="swiper-slide">
-              <div class="testimonial-item">
-                <div class="stars">
-                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                </div>
-                <p>
-                  Enim nisi quem export duis labore cillum quae magna enim sint quorum nulla quem veniam duis minim tempor labore quem eram duis noster aute amet eram fore quis sint minim.
-                </p>
-                <div class="profile mt-auto">
-                  <img src="assets/img/testimonials/testimonials-3.jpg" class="testimonial-img" alt="">
-                  <h3>Jena Karlis</h3>
-                  <h4>Store Owner</h4>
-                </div>
-              </div>
-            </div>
-
-            <div class="swiper-slide">
-              <div class="testimonial-item">
-                <div class="stars">
-                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                </div>
-                <p>
-                  Fugiat enim eram quae cillum dolore dolor amet nulla culpa multos export minim fugiat minim velit minim dolor enim duis veniam ipsum anim magna sunt elit fore quem dolore labore illum veniam.
-                </p>
-                <div class="profile mt-auto">
-                  <img src="assets/img/testimonials/testimonials-4.jpg" class="testimonial-img" alt="">
-                  <h3>Matt Brandon</h3>
-                  <h4>Freelancer</h4>
-                </div>
-              </div>
-            </div>
-
-            <div class="swiper-slide">
-              <div class="testimonial-item">
-                <div class="stars">
-                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                </div>
-                <p>
-                  Quis quorum aliqua sint quem legam fore sunt eram irure aliqua veniam tempor noster veniam enim culpa labore duis sunt culpa nulla illum cillum fugiat legam esse veniam culpa fore nisi cillum quid.
-                </p>
-                <div class="profile mt-auto">
-                  <img src="assets/img/testimonials/testimonials-5.jpg" class="testimonial-img" alt="">
-                  <h3>John Larson</h3>
-                  <h4>Entrepreneur</h4>
-                </div>
-              </div>
-            </div>
-
-          </div>
-          <div class="swiper-pagination"></div>
-        </div>
-
-      </div>
-
-    </section>/Testimonials Section -->
-
-    <!-- Contact Section -->
-    <!-- <section id="contact" class="contact section">
-
-      
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Contact</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-      </div>
-
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-        <div class="row gy-4">
-
-          <div class="col-lg-6">
-            <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="200">
-              <i class="bi bi-geo-alt"></i>
-              <h3>Address</h3>
-              <p>A108 Adam Street, New York, NY 535022</p>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6">
-            <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="300">
-              <i class="bi bi-telephone"></i>
-              <h3>Call Us</h3>
-              <p>+1 5589 55488 55</p>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6">
-            <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="400">
-              <i class="bi bi-envelope"></i>
-              <h3>Email Us</h3>
-              <p>info@example.com</p>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="row gy-4 mt-1">
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d48389.78314118045!2d-74.006138!3d40.710059!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a22a3bda30d%3A0xb89d1fe6bc499443!2sDowntown%20Conference%20Center!5e0!3m2!1sen!2sus!4v1676961268712!5m2!1sen!2sus" frameborder="0" style="border:0; width: 100%; height: 400px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-          </div>
-
-          <div class="col-lg-6">
-            <form action="/.netlify/functions/contact" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="400">
-              <div class="row gy-4">
-
-                <div class="col-md-6">
-                  <input type="text" name="name" class="form-control" placeholder="Your Name" required="">
-                </div>
-
-                <div class="col-md-6 ">
-                  <input type="email" class="form-control" name="email" placeholder="Your Email" required="">
-                </div>
-
-                <div class="col-md-12">
-                  <input type="text" class="form-control" name="subject" placeholder="Subject" required="">
-                </div>
-
-                <div class="col-md-12">
-                  <textarea class="form-control" name="message" rows="6" placeholder="Message" required=""></textarea>
-                </div>
-
-                <div class="col-md-12 text-center">
-                  <div class="loading">Loading</div>
-                  <div class="error-message"></div>
-                  <div class="sent-message">Your message has been sent. Thank you!</div>
-
-                  <button type="submit">Send Message</button>
-                </div>
-
-              </div>
-            </form>
-          </div>
-
-        </div>
-
-      </div>
-
-    </section>/Contact Section -->
 
   </main>
 
   <footer id="footer" class="footer position-relative light-background">
-
     <div class="container footer-top" style="display: flex;justify-content: center;width: 100%;max-width: max-content;">
       <div class="row gy-4">
         <div class="col-lg-4 col-md-6 footer-about" style="width: 100%;justify-content: center;display: flex;flex-direction: column;">
@@ -1161,53 +513,12 @@
             <a href="https://www.linkedin.com/company/nacos-tauchapter/about/"><i class="bi bi-linkedin"></i></a>
           </div>
         </div>
-
-        <!-- <div class="col-lg-2 col-md-3 footer-links">
-          <h4>Useful Links</h4>
-          <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About us</a></li>
-            <li><a href="#">Services</a></li>
-            <li><a href="#">Terms of service</a></li>
-            <li><a href="#">Privacy policy</a></li>
-          </ul>
-        </div> -->
-
-        <!-- <div class="col-lg-2 col-md-3 footer-links">
-          <h4>Our Services</h4>
-          <ul>
-            <li><a href="#">Web Design</a></li>
-            <li><a href="#">Web Development</a></li>
-            <li><a href="#">Product Management</a></li>
-            <li><a href="#">Marketing</a></li>
-            <li><a href="#">Graphic Design</a></li>
-          </ul>
-        </div> -->
-
-        <!-- <div class="col-lg-4 col-md-12 footer-newsletter">
-          <h4>Our Newsletter</h4>
-          <p>Subscribe to our newsletter and receive the latest news about our products and services!</p>
-          <form action="/.netlify/functions/newsletter" method="post" class="php-email-form">
-            <div class="newsletter-form"><input type="email" name="email"><input type="submit" value="Subscribe"></div>
-            <div class="loading">Loading</div>
-            <div class="error-message"></div>
-            <div class="sent-message">Your subscription request has been sent. Thank you!</div>
-          </form>
-        </div> -->
-
       </div>
     </div>
 
     <div class="container copyright text-center mt-4">
       <p> <span>Copyright</span> © <strong class="px-1 sitename">NACOS - TAU Development Team.</strong><br><span>All Rights Reserved.</span></p>
-      <div class="credits">
-        <!-- All the links in the footer should remain intact. -->
-        <!-- You can delete the links only if you've purchased the pro version. -->
-        <!-- Licensing information: https://bootstrapmade.com/license/ -->
-        <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
-      </div>
     </div>
-
   </footer>
 
   <!-- Scroll Top -->
@@ -1215,7 +526,6 @@
 
   <!-- Preloader -->
   <div id="preloader"></div>
-  
 
   <!-- Vendor JS Files -->
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -1223,27 +533,118 @@
   <script src="assets/vendor/aos/aos.js"></script>
   <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
   <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-  <!-- <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
-  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script> -->
 
-  
   <!-- Main JS File -->
   <script src="assets/js/main.js" type="module"></script>
 
-  <script src="assets/js/config.js"></script>
+  <script src="assets/js/env.js"></script>
+  <script src="config.local.js"></script>
+  <script type="module" src="assets/js/supabase-config.js"></script>
+  
+  <script>
+    // Copy to clipboard function
+    function copyToClipboard() {
+      const copyIcon = document.getElementById('accountNumberIcon');
+      const msg = document.getElementById('copyMsg');
+      navigator.clipboard.writeText('0118670866').then(() => {
+        copyIcon.style.display = 'none';
+        msg.style.display = 'inline';
+        setTimeout(() => {
+          msg.style.display = 'none';
+          copyIcon.style.display = 'inline';
+        }, 4000);
+      });
+    }
+  </script>
+  
   <script type="module">
     import { supabase } from './assets/js/supabase-config.js';
 
     document.addEventListener('DOMContentLoaded', async function() {
       const { data: { session } } = await supabase.auth.getSession();
+      const isLoggedIn = !!session;
 
+      // Navigation links
       const signinLink = document.getElementById('nav-signin');
       const dashboardLink = document.getElementById('nav-dashboard');
+      const pastQuestionsLink = document.getElementById('nav-past-questions');
+      const timetablesLink = document.getElementById('nav-timetables');
+      const resourcesLink = document.getElementById('nav-resources');
+      const careerPathsLink = document.getElementById('nav-career-paths');
+      
+      // Hero buttons
+      const heroSigninBtn = document.getElementById('hero-signin-btn');
+      const heroDashboardBtn = document.getElementById('hero-dashboard-btn');
 
-      if (session) {
+      if (isLoggedIn) {
+        // Show student-only navigation items
         if (signinLink) signinLink.style.display = 'none';
         if (dashboardLink) dashboardLink.style.display = 'block';
+        if (pastQuestionsLink) pastQuestionsLink.style.display = 'block';
+        if (timetablesLink) timetablesLink.style.display = 'block';
+        if (resourcesLink) resourcesLink.style.display = 'block';
+        if (careerPathsLink) careerPathsLink.style.display = 'block';
+        
+        // Update hero buttons
+        if (heroSigninBtn) heroSigninBtn.style.display = 'none';
+        if (heroDashboardBtn) heroDashboardBtn.style.display = 'inline-block';
+      } else {
+        // Hide student-only navigation items
+        if (signinLink) signinLink.style.display = 'block';
+        if (dashboardLink) dashboardLink.style.display = 'none';
+        if (pastQuestionsLink) pastQuestionsLink.style.display = 'none';
+        if (timetablesLink) timetablesLink.style.display = 'none';
+        if (resourcesLink) resourcesLink.style.display = 'none';
+        if (careerPathsLink) careerPathsLink.style.display = 'none';
+        
+        // Update hero buttons
+        if (heroSigninBtn) heroSigninBtn.style.display = 'inline-block';
+        if (heroDashboardBtn) heroDashboardBtn.style.display = 'none';
       }
+
+      // Smooth scrolling for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          const href = this.getAttribute('href');
+          if (href === '#' || href === '') return;
+          
+          const targetElement = document.querySelector(href);
+          if (targetElement) {
+            e.preventDefault();
+            targetElement.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+            // Update URL without reloading
+            history.pushState(null, null, href);
+          }
+        });
+      });
+
+      // Highlight active nav link based on scroll position
+      const sections = document.querySelectorAll('section[id]');
+      const navLinks = document.querySelectorAll('.navmenu a');
+
+      window.addEventListener('scroll', () => {
+        let current = '';
+        const scrollPosition = window.scrollY + 200;
+        
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.offsetHeight;
+          if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+            current = section.getAttribute('id');
+          }
+        });
+        
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          const href = link.getAttribute('href');
+          if (href === `#${current}`) {
+            link.classList.add('active');
+          }
+        });
+      });
     });
   </script>
 </body>
