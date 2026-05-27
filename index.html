@@ -57,11 +57,28 @@
     
     /* Responsive fixes */
     @media (max-width: 768px) {
-      .hero-section h1 {
+      .hero h1 {
         font-size: 1.8rem;
       }
-      .executive-card {
+      .hero p {
+        font-size: 1rem;
+      }
+      .pricing-item {
         margin-bottom: 20px;
+      }
+      
+      /* Fix NACOS Week accordion on mobile */
+      .accordion-body {
+        padding: 10px;
+      }
+      
+      .accordion-body .service-item {
+        margin-bottom: 15px;
+      }
+      
+      .accordion-body img {
+        max-width: 100%;
+        height: auto;
       }
     }
 
@@ -122,6 +139,22 @@
 }
 
 /* Mobile responsive */
+@media (max-width: 1199px) {
+  .navmenu {
+    display: none;
+  }
+  
+  .mobile-nav-toggle {
+    display: block !important;
+  }
+}
+
+@media (min-width: 1200px) {
+  .mobile-nav-toggle {
+    display: none !important;
+  }
+}
+
 @media (max-width: 992px) {
   .navmenu ul {
     flex-direction: column;
@@ -451,7 +484,7 @@
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100" style="width: 100%;">
             <div class="service-item item-cyan position-relative">
               <div class="justify-content-center align-items-center d-flex flex-column" style="margin: auto;">
-                <img src="assets/img/cash_image.png" class="img-fluid icon" alt="" style="border: none; width: 20%; height: 50%;">
+                <img src="assets/img/cash_image.png" class="img-fluid icon" alt="Cash Icon" style="border: none; max-width: 150px; height: auto;">
                 <div>
                   <h3 class="" style="display: flex; margin: auto; justify-content: center; align-items: center;">Account Details</h3>
                   <div>
@@ -492,23 +525,23 @@
   </main>
 
   <footer id="footer" class="footer position-relative light-background">
-    <div class="container footer-top" style="display: flex;justify-content: center;width: 100%;max-width: max-content;">
-      <div class="row gy-4">
-        <div class="col-lg-4 col-md-6 footer-about" style="width: 100%;justify-content: center;display: flex;flex-direction: column;">
-          <a href="index.html" class="logo d-flex align-items-center">
+    <div class="container footer-top text-center">
+      <div class="row gy-4 justify-content-center">
+        <div class="col-lg-6 col-md-8 footer-about">
+          <a href="index.html" class="logo d-flex align-items-center justify-content-center mb-4">
             <span class="sitename">NACOS - TAU</span>
           </a>
-          <div class="logo d-flex align-items-center" style="justify-content: center;">
-            <img src="assets/img/nacos logo.jpg" class="img-fluid" alt="" style="padding-right: 5%;max-height: 50px;">
+          <div class="logo d-flex justify-content-center mb-4">
+            <img src="assets/img/nacos logo.jpg" class="img-fluid me-3" alt="" style="max-height: 50px; border-radius: 8px;">
             <img src="assets/img/tau_logo-removebg-preview.png" alt="" class="img-fluid" style="max-height: 60px;">
           </div>
-          <div class="footer-contact pt-3" style="text-align: center;">
+          <div class="footer-contact pt-3">
             <p>University Drive, Off Idofin Road</p>
             <p>Oko-Irese, Kwara State</p>
             <p class="mt-3"><strong>Phone:</strong> <span>+234 813 624 2060</span></p>
             <p><strong>Email:</strong> <span>nacos@tau.edu.ng</span></p>
           </div>
-          <div class="social-links d-flex mt-4" style="justify-content: center;">
+          <div class="social-links d-flex justify-content-center mt-4">
             <a href="https://www.tiktok.com/@nacos_tau?is_from_webapp=1&sender_device=pc"><i class="bi bi-tiktok"></i></a>
             <a href="https://www.instagram.com/nacos_tauchapter?igsh=MWw1ZTlpaWZxZnl6cA=="><i class="bi bi-instagram"></i></a>
             <a href="https://www.linkedin.com/company/nacos-tauchapter/about/"><i class="bi bi-linkedin"></i></a>
