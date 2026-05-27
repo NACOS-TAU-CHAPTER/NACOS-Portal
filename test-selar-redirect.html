@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Selar Redirect</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+  <div class="container py-5">
+    <div class="card shadow-lg border-0 rounded-4 p-5">
+      <h2 class="text-center mb-4">🧪 Test Selar Webhook Integration</h2>
+      
+      <div class="alert alert-info">
+        <strong>ℹ️ How to use this test:</strong>
+        <ol class="mb-0 mt-2">
+          <li>Fill in the test transaction details below</li>
+          <li>Click "Simulate Selar Redirect"</li>
+          <li>You'll be redirected to your Netlify function (just like Selar would do)</li>
+          <li>Check if votes are recorded in your database</li>
+        </ol>
+      </div>
+
+      <form id="testForm">
+        <h4 class="mt-4 mb-3">Transaction Details</h4>
+        
+        <div class="mb-3">
+          <label class="form-label">Transaction Reference</label>
+          <input type="text" class="form-control" id="reference" value="TEST_REF_<?php echo time(); ?>" required>
+          <small class="text-muted">Unique reference for this test payment</small>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Customer Email</label>
+          <input type="email" class="form-control" id="email" value="test@nacos.com" required>
+        </div>
+
+        <h4 class="mt-4 mb-3">Sample Votes</h4>
+        
+        <div class="row mb-3">
+          <div class="col-md-8">
+            <label class="form-label">Tech Innovator</label>
+            <select class="form-select" id="tech-innovator">
+              <option value="">-- Skip --</option>
+              <option value="Akinlotan Victor" selected>Akinlotan Victor</option>
+              <option value="Ajetomobi Praise">Ajetomobi Praise</option>
+              <option value="Samuel">Samuel</option>
+              <option value="Nabeel">Nabeel</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Votes</label>
+            <input type="number" class="form-control" id="tech-innovator-amount" value="5" min="0">
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-8">
+            <label class="form-label">Faculty Icon</label>
+            <select class="form-select" id="faculty-icon">
+              <option value="">-- Skip --</option>
+              <option value="Hayat" selected>Hayat</option>
+              <option value="Father KD">Father KD</option>
+              <option value="Eri">Eri</option>
+              <option value="Ajetomobi Praise">Ajetomobi Praise</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Votes</label>
+            <input type="number" class="form-control" id="faculty-icon-amount" value="3" min="0">
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-8">
+            <label class="form-label">Most Popular Figure</label>
+            <select class="form-select" id="most-popular">
+              <option value="">-- Skip --</option>
+              <option value="Siraj" selected>Siraj</option>
+              <option value="KD">KD</option>
+              <option value="Femi">Femi</option>
+              <option value="Ibadan">Ibadan</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Votes</label>
+            <input type="number" class="form-control" id="most-popular-amount" value="2" min="0">
+          </div>
+        </div>
+
+        <div class="alert alert-warning mt-4">
+          <strong>⚠️ Testing Options:</strong>
+          <div class="form-check mt-2">
+            <input class="form-check-input" type="radio" name="testMode" id="localTest" value="local" checked>
+            <label class="form-check-label" for="localTest">
+              <strong>Local Test</strong> - Test with Netlify Dev (http://localhost:8888)
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="testMode" id="liveTest" value="live">
+            <label class="form-check-label" for="liveTest">
+              <strong>Live Test</strong> - Test with deployed Netlify function
+            </label>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-lg w-100 mt-3">
+          🚀 Simulate Selar Redirect
+        </button>
+      </form>
+
+      <div class="mt-4">
+        <h5>Generated URL Preview:</h5>
+        <div class="bg-light p-3 rounded" style="word-break: break-all; font-family: monospace; font-size: 12px;" id="urlPreview">
+          Fill the form to see the URL...
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('testForm');
+    const urlPreview = document.getElementById('urlPreview');
+
+    // Update URL preview as user types
+    function updatePreview() {
+      const testMode = document.querySelector('input[name="testMode"]:checked').value;
+      const baseUrl = testMode === 'local' 
+        ? 'http://localhost:8888/.netlify/functions/selar_webhook'
+        : 'https://nacos-tau.netlify.app/.netlify/functions/selar_webhook';
+
+      const reference = document.getElementById('reference').value;
+      const email = document.getElementById('email').value;
+      
+      const voteDetails = {};
+      
+      // Collect all votes
+      const categories = ['tech-innovator', 'faculty-icon', 'most-popular'];
+      categories.forEach(cat => {
+        const candidate = document.getElementById(cat).value;
+        const amount = document.getElementById(cat + '-amount').value;
+        if (candidate && amount > 0) {
+          voteDetails[cat] = candidate;
+          voteDetails[cat + '-amount'] = amount;
+        }
+      });
+
+      const encodedVotes = encodeURIComponent(JSON.stringify(voteDetails));
+      const url = `${baseUrl}?reference=${reference}&email=${email}&custom_notes=${encodedVotes}`;
+      
+      urlPreview.textContent = url;
+    }
+
+    // Update preview on any input change
+    form.addEventListener('input', updatePreview);
+    document.querySelectorAll('input[name="testMode"]').forEach(radio => {
+      radio.addEventListener('change', updatePreview);
+    });
+
+    // Initial preview
+    updatePreview();
+
+    // Handle form submission
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const testMode = document.querySelector('input[name="testMode"]:checked').value;
+      const baseUrl = testMode === 'local' 
+        ? 'http://localhost:8888/.netlify/functions/selar_webhook'
+        : 'https://nacos-tau.netlify.app/.netlify/functions/selar_webhook';
+
+      const reference = document.getElementById('reference').value;
+      const email = document.getElementById('email').value;
+      
+      // Build vote details object
+      const voteDetails = {};
+      const categories = ['tech-innovator', 'faculty-icon', 'most-popular'];
+      
+      categories.forEach(cat => {
+        const candidate = document.getElementById(cat).value;
+        const amount = document.getElementById(cat + '-amount').value;
+        if (candidate && amount > 0) {
+          voteDetails[cat] = candidate;
+          voteDetails[cat + '-amount'] = amount;
+        }
+      });
+
+      if (Object.keys(voteDetails).length === 0) {
+        alert('Please select at least one candidate to vote for!');
+        return;
+      }
+
+      // Encode vote details
+      const encodedVotes = encodeURIComponent(JSON.stringify(voteDetails));
+      
+      // Build the redirect URL (simulating what Selar does)
+      const redirectUrl = `${baseUrl}?reference=${reference}&email=${email}&custom_notes=${encodedVotes}`;
+      
+      console.log('Redirecting to:', redirectUrl);
+      console.log('Vote details:', voteDetails);
+      
+      // Redirect (just like Selar would)
+      window.location.href = redirectUrl;
+    });
+
+    // Generate unique reference on page load
+    document.getElementById('reference').value = 'TEST_REF_' + Date.now();
+  </script>
+</body>
+</html>

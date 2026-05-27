@@ -252,20 +252,32 @@
       // Assume 1 vote = 100 Naira (Change this to your actual rate)
       const amountToPay = totalVotes * 100;
 
-      // 2. SELAR INTEGRATION LOGIC GOES HERE
-      // Replace 'YOUR_SELAR_LINK' with your actual Selar product link
-      // We encode the vote details as a string so we can pass it as a custom parameter if needed
-      const selarBaseUrl = "https://selar.co/6977977p71";
+      // 2. SELAR INTEGRATION
+      // Your Selar product link
+      const selarProductUrl = "https://selar.co/6977977p71";
       
-      // Example of passing data in URL (check Selar docs for their exact custom field formatting)
-      const checkoutUrl = `${selarBaseUrl}?amount=${amountToPay}&notes=${encodeURIComponent(JSON.stringify(voteDetails))}`;
+      // Encode vote details to pass to the webhook via redirect
+      const encodedVoteData = encodeURIComponent(JSON.stringify(voteDetails));
+      
+      // Construct the Selar checkout URL with custom_notes parameter
+      const checkoutUrl = `${selarProductUrl}?custom_notes=${encodedVoteData}`;
 
       Swal.fire({
-        title: 'Redirecting to Selar',
-        text: `You are about to pay ₦${amountToPay} for ${totalVotes} votes.`,
+        title: 'Redirecting to Payment',
+        html: `
+          <p>You are about to pay <strong>₦${amountToPay.toLocaleString()}</strong> for <strong>${totalVotes}</strong> vote${totalVotes > 1 ? 's' : ''}.</p>
+          <div style="text-align: left; margin-top: 15px; padding: 15px; background: #f8f9fa; border-radius: 5px; max-height: 200px; overflow-y: auto;">
+            ${Object.keys(voteDetails).filter(k => !k.includes('-amount')).map(category => {
+              const candidate = voteDetails[category];
+              const amount = voteDetails[`${category}-amount`];
+              return `<div style="padding: 5px 0;"><strong>${category.replace(/-/g, ' ')}:</strong> ${candidate} (${amount} vote${amount > 1 ? 's' : ''})</div>`;
+            }).join('')}
+          </div>
+        `,
         icon: 'info',
         showCancelButton: true,
-        confirmButtonText: 'Proceed',
+        confirmButtonText: 'Proceed to Payment',
+        cancelButtonText: 'Cancel',
         confirmButtonColor: '#1b8c0c'
       }).then((result) => {
         if (result.isConfirmed) {
