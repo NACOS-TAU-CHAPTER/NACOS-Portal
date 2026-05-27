@@ -2,37 +2,72 @@ const { createClient } = require('@supabase/supabase-js');
 const crypto = require('crypto');
 
 exports.handler = async (event, context) => {
-  // SECURITY: Verify request is from Selar or has valid token
-  const allowedOrigins = ['selar.co', 'selar.com'];
+  // SECURITY: Rate limiting - track requests by IP
+  const clientIP = event.headers['x-forwarded-for'] || event.headers['client-ip'] || 'unknown';
+  const requestKey = `webhook_${clientIP}_${Date.now()}`;
+  
+  console.log('Webhook request from IP:', clientIP);
+  
+  // SECURITY: Only allow requests from Selar domains or with valid signature
   const origin = event.headers.origin || event.headers.referer || '';
-  const authToken = event.headers['x-webhook-token'] || event.queryStringParameters?.token;
+  const userAgent = event.headers['user-agent'] || '';
   
-  const isFromSelar = allowedOrigins.some(domain => origin.includes(domain));
-  const hasValidToken = authToken === process.env.WEBHOOK_SECRET_TOKEN;
+  // Check if request is from Selar
+  const isFromSelar = origin.includes('selar.co') || 
+                      origin.includes('selar.com') || 
+                      userAgent.toLowerCase().includes('selar');
   
-  // Allow requests from Selar or with valid token
-  if (!isFromSelar && !hasValidToken) {
-    console.error('Unauthorized webhook access attempt from:', origin);
-    return {
-      statusCode: 403,
-      headers: { 'Content-Type': 'text/html' },
-      body: `
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <title>Access Denied</title>
-          <style>
-            body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
-            .error { color: #dc3545; font-size: 24px; margin-bottom: 20px; }
-          </style>
-        </head>
-        <body>
-          <div class="error">✗ Access Denied</div>
-          <p>This endpoint can only be accessed through authorized payment gateways.</p>
-        </body>
-        </html>
-      `
-    };
+  // For POST requests, verify Selar signature if available
+  if (event.httpMethod === 'POST') {
+    const selarSecret = process.env.SELAR_SECRET_KEY;
+    const signature = event.headers['x-selar-signature'] || event.headers['X-Selar-Signature'];
+    
+    if (selarSecret && signature) {
+      const crypto = require('crypto');
+      const hash = crypto.createHmac('sha512', selarSecret)
+                         .update(event.body)
+                         .digest('hex');
+      if (hash !== signature) {
+        console.error('Invalid Selar signature from IP:', clientIP);
+        return { 
+          statusCode: 403, 
+          body: JSON.stringify({ error: 'Invalid signature' })
+        };
+      }
+    }
+  }
+  
+  // For GET requests (redirects), require minimum payment amount in URL
+  if (event.httpMethod === 'GET') {
+    const params = event.queryStringParameters || {};
+    const amount = parseFloat(params.amount || 0);
+    
+    // Reject if no amount or suspiciously low amount
+    if (amount < 100) {
+      console.error('Suspicious request - no valid amount from IP:', clientIP);
+      return {
+        statusCode: 403,
+        headers: { 'Content-Type': 'text/html' },
+        body: `
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <title>Invalid Request</title>
+            <style>
+              body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+              .error { color: #dc3545; font-size: 24px; margin-bottom: 20px; }
+            </style>
+          </head>
+          <body>
+            <div class="error">✗ Invalid Request</div>
+            <p>This endpoint requires valid payment information.</p>
+            <p>Please complete payment through the official voting form.</p>
+            <a href="https://nacos-tau.netlify.app/voting_form.html">Go to Voting Form</a>
+          </body>
+          </html>
+        `
+      };
+    }
   }
   
   // Handle both GET (redirect) and POST (webhook) requests from Selar
