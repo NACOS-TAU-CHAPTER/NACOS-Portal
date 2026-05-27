@@ -1,9 +1,24 @@
 const { createClient } = require('@supabase/supabase-js');
+const crypto = require('crypto');
 
 exports.handler = async (event, context) => {
   // Only allow POST requests from Selar
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
+  }
+
+  // Securely verify that the request actually came from Selar
+  const selarSecret = process.env.SELAR_SECRET_KEY;
+  const signature = event.headers['x-selar-signature'] || event.headers['X-Selar-Signature'];
+  
+  if (selarSecret && signature) {
+    const hash = crypto.createHmac('sha512', selarSecret)
+                       .update(event.body)
+                       .digest('hex');
+    if (hash !== signature) {
+      console.error('Invalid Selar signature');
+      return { statusCode: 401, body: 'Unauthorized: Invalid signature' };
+    }
   }
 
   try {
