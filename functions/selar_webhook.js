@@ -15,6 +15,7 @@ exports.handler = async (event, context) => {
     reference = params.reference || params.transaction_reference || params.payment_reference;
     const sessionId = params.session_id;
     const email = params.email || params.customer_email;
+    const paidAmount = parseFloat(params.amount || params.total || 0);
     
     // If no reference from Selar, generate one from email and timestamp
     if (!reference || reference.includes('{{') || reference.includes('{')) {
@@ -59,6 +60,52 @@ exports.handler = async (event, context) => {
         console.log('Retrieved most recent pending votes');
       }
     }
+    
+    // Calculate expected payment amount (100 Naira per vote)
+    const VOTE_PRICE = 100;
+    let totalVotes = 0;
+    Object.keys(voteDetails).forEach(key => {
+      if (key.includes('-amount')) {
+        totalVotes += parseInt(voteDetails[key]) || 0;
+      }
+    });
+    const expectedAmount = totalVotes * VOTE_PRICE;
+    
+    // SECURITY CHECK: Verify payment amount matches vote count
+    if (paidAmount > 0 && paidAmount < expectedAmount) {
+      console.error('Payment verification failed:', {
+        paidAmount,
+        expectedAmount,
+        totalVotes
+      });
+      
+      return {
+        statusCode: 200,
+        headers: { 'Content-Type': 'text/html' },
+        body: `
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <title>Payment Verification Failed</title>
+            <style>
+              body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+              .error { color: #dc3545; font-size: 24px; margin-bottom: 20px; }
+            </style>
+          </head>
+          <body>
+            <div class="error">✗ Payment Verification Failed</div>
+            <p>The payment amount (₦${paidAmount}) does not match the required amount for ${totalVotes} votes (₦${expectedAmount}).</p>
+            <p>Your votes have NOT been recorded.</p>
+            <p><small>Reference: ${reference}</small></p>
+            <p>Please contact support if you believe this is an error.</p>
+            <a href="https://nacos-tau.netlify.app">Return to Home</a>
+          </body>
+          </html>
+        `
+      };
+    }
+    
+    console.log('Payment verified:', { paidAmount, expectedAmount, totalVotes });
     
     // Fallback: Extract vote details from custom_notes or notes parameter (old method)
     if ((!voteDetails || Object.keys(voteDetails).length === 0) && (params.custom_notes || params.notes)) {
