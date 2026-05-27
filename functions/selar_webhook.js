@@ -80,8 +80,35 @@ exports.handler = async (event, context) => {
 
   // Common processing for both GET and POST
   try {
+    // Debug logging
+    console.log('Processing vote data...');
+    console.log('Reference:', reference);
+    console.log('Vote Details:', voteDetails);
+    console.log('Transaction:', transaction);
+    
     if (!reference) {
-      return { statusCode: 400, body: 'Missing transaction reference' };
+      console.error('Missing reference!');
+      return { 
+        statusCode: 400, 
+        headers: { 'Content-Type': 'text/html' },
+        body: `
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <title>Error</title>
+            <style>
+              body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+              .error { color: #dc3545; font-size: 24px; margin-bottom: 20px; }
+            </style>
+          </head>
+          <body>
+            <div class="error">✗ Missing Transaction Reference</div>
+            <p>Please contact support.</p>
+            <a href="https://nacos-tau.netlify.app">Return to Home</a>
+          </body>
+          </html>
+        `
+      };
     }
 
     if (!voteDetails || Object.keys(voteDetails).length === 0) {
@@ -163,11 +190,43 @@ exports.handler = async (event, context) => {
     }
 
     // Initialize Supabase using the Service Role Key
+    console.log('Initializing Supabase...');
+    console.log('SUPABASE_URL exists:', !!process.env.SUPABASE_URL);
+    console.log('SUPABASE_SERVICE_ROLE_KEY exists:', !!process.env.SUPABASE_SERVICE_ROLE_KEY);
+    
+    if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      console.error('Missing Supabase credentials!');
+      return {
+        statusCode: 500,
+        headers: { 'Content-Type': 'text/html' },
+        body: `
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <title>Configuration Error</title>
+            <style>
+              body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+              .error { color: #dc3545; font-size: 24px; margin-bottom: 20px; }
+            </style>
+          </head>
+          <body>
+            <div class="error">✗ Configuration Error</div>
+            <p>Supabase credentials are not configured. Please set environment variables in Netlify.</p>
+            <p><small>Reference: ${reference}</small></p>
+            <a href="https://nacos-tau.netlify.app">Return to Home</a>
+          </body>
+          </html>
+        `
+      };
+    }
+    
     const supabase = createClient(
       process.env.SUPABASE_URL,
       process.env.SUPABASE_SERVICE_ROLE_KEY
     );
 
+    console.log('Inserting votes:', votesToInsert);
+    
     // Insert into Supabase
     const { error: dbError } = await supabase
       .from('votes')
@@ -299,6 +358,29 @@ exports.handler = async (event, context) => {
     };
   } catch (error) {
     console.error('Webhook Error:', error);
-    return { statusCode: 500, body: 'Internal Server Error' };
+    console.error('Error stack:', error.stack);
+    return { 
+      statusCode: 500,
+      headers: { 'Content-Type': 'text/html' },
+      body: `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Error</title>
+          <style>
+            body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+            .error { color: #dc3545; font-size: 24px; margin-bottom: 20px; }
+          </style>
+        </head>
+        <body>
+          <div class="error">✗ Internal Server Error</div>
+          <p>An error occurred while processing your votes.</p>
+          <p><small>Error: ${error.message}</small></p>
+          <p>Please contact support with this information.</p>
+          <a href="https://nacos-tau.netlify.app">Return to Home</a>
+        </body>
+        </html>
+      `
+    };
   }
 };
