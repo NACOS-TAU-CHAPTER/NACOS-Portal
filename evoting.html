@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>E-Voting - NACOS | Thomas Adewumi University</title>
+  <meta name="description" content="Vote for your favorite candidates in the NACOS TAU Awards">
+
+  <!-- Favicons -->
+  <link href="assets/img/tau_logo-removebg-preview.png" rel="icon">
+  <link href="assets/img/tau_logo-removebg-preview.png" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/css/main.css" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <style>
+    body { background-color: #f8fbfc; }
+    .voting-card {
+      border: none;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+  </style>
+</head>
+
+<body class="index-page">
+
+  <header id="header" class="header d-flex align-items-center fixed-top bg-white shadow-sm">
+    <div class="container d-flex align-items-center justify-content-between">
+      <a href="index.html" class="logo d-flex align-items-center">
+        <img src="assets/img/nacos logo.jpg" alt="NACOS Logo" style="height: 45px;">
+        <div class="ms-2">
+          <span style="color: #1b8c0c; font-weight: 700;">NACOS</span>
+          <span style="font-size: 10px; display: block; color: #777;">TAU Chapter</span>
+        </div>
+      </a>
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li class="dropdown"><a href="#" class="active" style="color: #1b8c0c; font-weight: 600;"><span>E-Voting</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <ul>
+              <li><a href="evoting.html" class="active" style="color: #1b8c0c; font-weight: 600;">Vote Now</a></li>
+              <li><a href="voting_leaderboard.html">Leaderboard</a></li>
+            </ul>
+          </li>
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main" style="margin-top: 100px; min-height: 70vh;">
+    <section id="voting" class="section">
+      <div class="container py-4" data-aos="fade-up">
+
+        <div class="card voting-card p-4 p-md-5 mx-auto" style="max-width: 900px;">
+          <div class="text-center mb-5">
+            <h2 style="color: #1b8c0c; font-weight: 700;">The NACTA Awards 2026</h2>
+            <p class="text-muted">Cast your votes for the NACOS TAU Awards. (1 Vote = ₦100)</p>
+          </div>
+
+          <!-- Voting Form -->
+          <form id="votingForm">
+
+            <!-- Tech Innovator of the year -->
+            <div class="row mb-4 align-items-center">
+              <div class="col-md-8 mb-2 mb-md-0">
+                <label class="form-label fw-bold">Tech Innovator of the year</label>
+                <input type="text" class="form-control" name="tech-innovator" placeholder="Enter candidate name">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label text-muted small mb-1">Number of Votes</label>
+                <input type="number" class="form-control" name="tech-innovator-amount" min="0" value="0">
+              </div>
+            </div>
+
+            <!-- Faculty icon of the year -->
+            <div class="row mb-4 align-items-center">
+              <div class="col-md-8 mb-2 mb-md-0">
+                <label class="form-label fw-bold">Faculty Icon of the year</label>
+                <input type="text" class="form-control" name="faculty-icon" placeholder="Enter candidate name">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label text-muted small mb-1">Number of Votes</label>
+                <input type="number" class="form-control" name="faculty-icon-amount" min="0" value="0">
+              </div>
+            </div>
+
+            <!-- Sportsman of the Year -->
+            <div class="row mb-4 align-items-center">
+              <div class="col-md-8 mb-2 mb-md-0">
+                <label class="form-label fw-bold">Sportsman of the Year</label>
+                <input type="text" class="form-control" name="sportsman" placeholder="Enter candidate name">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label text-muted small mb-1">Number of Votes</label>
+                <input type="number" class="form-control" name="sportsman-amount" min="0" value="0">
+              </div>
+            </div>
+
+            <!-- Best Course Representative -->
+            <div class="row mb-4 align-items-center">
+              <div class="col-md-8 mb-2 mb-md-0">
+                <label class="form-label fw-bold">Best Course Representative</label>
+                <input type="text" class="form-control" name="course-rep" placeholder="Enter candidate name">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label text-muted small mb-1">Number of Votes</label>
+                <input type="number" class="form-control" name="course-rep-amount" min="0" value="0">
+              </div>
+            </div>
+
+            <!-- Best Dressed Male of the Faculty -->
+            <div class="row mb-4 align-items-center">
+              <div class="col-md-8 mb-2 mb-md-0">
+                <label class="form-label fw-bold">Best Dressed Male of the Faculty</label>
+                <input type="text" class="form-control" name="best-dressed-male" placeholder="Enter candidate name">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label text-muted small mb-1">Number of Votes</label>
+                <input type="number" class="form-control" name="best-dressed-male-amount" min="0" value="0">
+              </div>
+            </div>
+
+            <!-- Best Dressed Female of the Faculty -->
+            <div class="row mb-4 align-items-center">
+              <div class="col-md-8 mb-2 mb-md-0">
+                <label class="form-label fw-bold">Best Dressed Female of the Faculty</label>
+                <input type="text" class="form-control" name="best-dressed-female" placeholder="Enter candidate name">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label text-muted small mb-1">Number of Votes</label>
+                <input type="number" class="form-control" name="best-dressed-female-amount" min="0" value="0">
+              </div>
+            </div>
+
+            <!-- Best Lecturer of the year -->
+            <div class="row mb-4 align-items-center">
+              <div class="col-md-8 mb-2 mb-md-0">
+                <label class="form-label fw-bold">Best Lecturer of the year</label>
+                <input type="text" class="form-control" name="best-lecturer" placeholder="Enter candidate name">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label text-muted small mb-1">Number of Votes</label>
+                <input type="number" class="form-control" name="best-lecturer-amount" min="0" value="0">
+              </div>
+            </div>
+
+            <!-- Most Influential -->
+            <div class="row mb-4 align-items-center">
+              <div class="col-md-8 mb-2 mb-md-0">
+                <label class="form-label fw-bold">Most Influential</label>
+                <input type="text" class="form-control" name="most-influential" placeholder="Enter candidate name">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label text-muted small mb-1">Number of Votes</label>
+                <input type="number" class="form-control" name="most-influential-amount" min="0" value="0">
+              </div>
+            </div>
+
+            <!-- Outstanding executive of the year -->
+            <div class="row mb-4 align-items-center">
+              <div class="col-md-8 mb-2 mb-md-0">
+                <label class="form-label fw-bold">Outstanding Executive of the year</label>
+                <input type="text" class="form-control" name="outstanding-executive" placeholder="Enter candidate name">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label text-muted small mb-1">Number of Votes</label>
+                <input type="number" class="form-control" name="outstanding-executive-amount" min="0" value="0">
+              </div>
+            </div>
+
+            <!-- Most Popular figure -->
+            <div class="row mb-4 align-items-center">
+              <div class="col-md-8 mb-2 mb-md-0">
+                <label class="form-label fw-bold">Most Popular Figure</label>
+                <input type="text" class="form-control" name="most-popular" placeholder="Enter candidate name">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label text-muted small mb-1">Number of Votes</label>
+                <input type="number" class="form-control" name="most-popular-amount" min="0" value="0">
+              </div>
+            </div>
+
+            <div class="mt-5">
+              <button type="submit" class="btn btn-success w-100 py-3 fw-bold fs-5" id="payButton" style="background-color: #1b8c0c; border: none;">
+                Proceed To Payment via Selar
+              </button>
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="footer" class="footer position-relative light-background mt-5">
+    <div class="container copyright text-center mt-4">
+      <p><span>Copyright</span> © <strong class="px-1 sitename">NACOS - TAU Development Team.</strong><br><span>All Rights Reserved.</span></p>
+    </div>
+  </footer>
+
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  
+  <script>
+    // Initialize AOS animations
+    document.addEventListener('DOMContentLoaded', () => {
+      AOS.init({ duration: 800, once: true });
+    });
+
+    document.getElementById('votingForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const payButton = document.getElementById('payButton');
+      payButton.disabled = true;
+      payButton.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Processing...';
+
+      const formData = new FormData(this);
+      let totalVotes = 0;
+      let voteDetails = {};
+
+      // Extract names and amounts dynamically
+      for (let [key, value] of formData.entries()) {
+        if (value && value.trim() !== '' && value !== '0') {
+          if (key.includes('-amount')) {
+            totalVotes += parseInt(value);
+          }
+          voteDetails[key] = value;
+        }
+      }
+
+      if (totalVotes === 0) {
+        Swal.fire('Error', 'Please cast at least one vote to proceed.', 'error');
+        payButton.disabled = false;
+        payButton.innerHTML = 'Proceed To Payment via Selar';
+        return;
+      }
+
+      // Assuming 1 vote = 100 Naira
+      const amountToPay = totalVotes * 100;
+
+      // Link to your updated Selar Product
+      const selarBaseUrl = "https://selar.co/6977977p71";
+      
+      // Serialize the voting details to pass securely in Selar's notes
+      const checkoutUrl = `${selarBaseUrl}?amount=${amountToPay}&notes=${encodeURIComponent(JSON.stringify(voteDetails))}`;
+
+      Swal.fire({
+        title: 'Confirm Checkout',
+        text: `You have selected ${totalVotes} vote(s). The total is ₦${amountToPay}.`,
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonText: 'Proceed to Selar',
+        cancelButtonText: 'Cancel',
+        confirmButtonColor: '#1b8c0c'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = checkoutUrl;
+        } else {
+          payButton.disabled = false;
+          payButton.innerHTML = 'Proceed To Payment via Selar';
+        }
+      });
+    });
+  </script>
+</body>
+</html>
