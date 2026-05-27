@@ -192,6 +192,37 @@ exports.handler = async (event, context) => {
     };
 
     console.log('GET request received from Selar redirect:', params);
+    
+    // SECURITY FIX: Return the success page immediately on GET requests.
+    // URL parameters can be spoofed by users, so actual database insertions 
+    // are left securely to the POST webhook trigger.
+    return { 
+      statusCode: 200,
+      headers: { 'Content-Type': 'text/html' },
+      body: `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Payment Successful</title>
+          <meta http-equiv="refresh" content="5;url=https://nacos-tau.netlify.app/voting_leaderboard.html">
+          <style>
+            body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+            .container { background: white; color: #333; padding: 40px; border-radius: 10px; max-width: 500px; margin: 0 auto; box-shadow: 0 10px 40px rgba(0,0,0,0.2); }
+            .success { color: #28a745; font-size: 48px; margin-bottom: 20px; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="success">✓</div>
+            <h1>Payment Complete!</h1>
+            <p>Thank you for participating. Your votes are being securely processed in the background.</p>
+            <p><small>Reference: ${reference}</small></p>
+            <a href="https://nacos-tau.netlify.app/voting_leaderboard.html">View Leaderboard</a>
+          </div>
+        </body>
+        </html>
+      `
+    };
   }
   // CASE 2: POST request (Selar webhook - if they add support later)
   else if (event.httpMethod === 'POST') {

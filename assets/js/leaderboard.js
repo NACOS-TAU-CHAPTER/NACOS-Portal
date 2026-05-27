@@ -43,6 +43,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         const formatCategoryName = (cat) => {
             return cat.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
         };
+        
+        // Helper to prevent XSS injection from user-submitted candidate names
+        const escapeHtml = (text) => {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        };
 
         let html = '<div class="row g-4">';
 
@@ -74,7 +81,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <li class="list-group-item d-flex justify-content-between align-items-center py-3">
                         <div class="d-flex align-items-center">
                             <span class="badge ${badgeClass} rounded-pill me-3 shadow-sm" style="width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: 14px;">${index + 1}</span>
-                            <span class="fw-bold text-dark" style="font-size: 16px;">${c.name}</span>
+                            <span class="fw-bold text-dark" style="font-size: 16px;">${escapeHtml(c.name)}</span>
                         </div>
                         <span class="badge rounded-pill fs-6 px-3 py-2" style="background-color: #e8f5e9; color: #1b8c0c; border: 1px solid #1b8c0c;">
                             ${c.count} Vote${c.count !== 1 ? 's' : ''}
