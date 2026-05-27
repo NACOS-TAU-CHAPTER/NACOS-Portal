@@ -1,4 +1,4 @@
-import { supabase } from './supabase-config.js';
+import { supabase } from '../../assets/js/supabase-config.js';
 
 /**
  * Fetches and tallies the top 10 candidates for a given category.
