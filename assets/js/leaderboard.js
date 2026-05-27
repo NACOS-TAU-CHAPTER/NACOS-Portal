@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Fetch all votes from Supabase
         const { data: votes, error } = await supabase
             .from('votes')
-            .select('category, candidate, vote_amount');
+            .select('category, candidate_name, vote_amount');
 
         if (error) throw error;
 
@@ -35,8 +35,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         const tally = {};
         votes.forEach(v => {
             if (!tally[v.category]) tally[v.category] = {};
-            if (!tally[v.category][v.candidate]) tally[v.category][v.candidate] = 0;
-            tally[v.category][v.candidate] += (v.vote_amount || 0);
+            if (!tally[v.category][v.candidate_name]) tally[v.category][v.candidate_name] = 0;
+            tally[v.category][v.candidate_name] += (v.vote_amount || 0);
         });
 
         // Helper to format category names (e.g., "tech-innovator" -> "Tech Innovator")
