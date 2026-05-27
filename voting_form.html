@@ -273,16 +273,23 @@
       const amountToPay = totalVotes * 100;
 
       // 2. SELAR INTEGRATION
-      // Your Selar product link
-      const selarProductUrl = "https://selar.co/6977977p71";
-      
-      // Encode vote details to pass to the webhook via redirect
-      const encodedVoteData = encodeURIComponent(JSON.stringify(voteDetails));
-      
-      // Construct the Selar checkout URL with custom_notes parameter
-      const checkoutUrl = `${selarProductUrl}?custom_notes=${encodedVoteData}`;
+      // First, store votes in database and get session ID
+      fetch('/.netlify/functions/store_votes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ voteDetails })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.error) {
+          throw new Error(data.error);
+        }
+        
+        // Your Selar product link with session ID
+        const selarProductUrl = "https://selar.co/6977977p71";
+        const checkoutUrl = `${selarProductUrl}?session_id=${data.sessionId}`;
 
-      Swal.fire({
+        Swal.fire({
         title: 'Redirecting to Payment',
         html: `
           <p>You are about to pay <strong>₦${amountToPay.toLocaleString()}</strong> for <strong>${totalVotes}</strong> vote${totalVotes > 1 ? 's' : ''}.</p>
@@ -307,6 +314,13 @@
           payButton.disabled = false;
           payButton.innerHTML = 'Proceed To Payment';
         }
+      });
+      })
+      .catch(error => {
+        console.error('Error storing votes:', error);
+        Swal.fire('Error', 'Failed to prepare payment. Please try again.', 'error');
+        payButton.disabled = false;
+        payButton.innerHTML = 'Proceed To Payment';
       });
     });
   </script>

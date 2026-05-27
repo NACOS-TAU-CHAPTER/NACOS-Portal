@@ -13,9 +13,29 @@ exports.handler = async (event, context) => {
     
     // Selar typically sends: reference, product_id, email, amount, etc.
     reference = params.reference || params.transaction_reference;
+    const sessionId = params.session_id;
     
-    // Extract vote details from custom_notes or notes parameter
-    if (params.custom_notes || params.notes) {
+    // Try to get vote details from session_id (new method)
+    if (sessionId) {
+      const supabase = createClient(
+        process.env.SUPABASE_URL,
+        process.env.SUPABASE_SERVICE_ROLE_KEY
+      );
+      
+      const { data: pendingVote, error: fetchError } = await supabase
+        .from('pending_votes')
+        .select('vote_data')
+        .eq('session_id', sessionId)
+        .single();
+      
+      if (!fetchError && pendingVote) {
+        voteDetails = pendingVote.vote_data;
+        console.log('Retrieved votes from session:', sessionId);
+      }
+    }
+    
+    // Fallback: Extract vote details from custom_notes or notes parameter (old method)
+    if ((!voteDetails || Object.keys(voteDetails).length === 0) && (params.custom_notes || params.notes)) {
       try {
         voteDetails = JSON.parse(decodeURIComponent(params.custom_notes || params.notes));
       } catch (e) {
