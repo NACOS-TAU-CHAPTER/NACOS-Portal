@@ -12,11 +12,18 @@ exports.handler = async (event, context) => {
     const params = event.queryStringParameters || {};
     
     // Selar typically sends: reference, product_id, email, amount, etc.
-    reference = params.reference || params.transaction_reference;
+    reference = params.reference || params.transaction_reference || params.payment_reference;
     const sessionId = params.session_id;
+    const email = params.email || params.customer_email;
     
-    // Try to get vote details from session_id (new method)
-    if (sessionId) {
+    // If no reference from Selar, generate one from email and timestamp
+    if (!reference || reference.includes('{{') || reference.includes('{')) {
+      reference = 'SELAR_' + Date.now() + '_' + email.split('@')[0];
+      console.log('Generated reference:', reference);
+    }
+    
+    // Try to get vote details from session_id (if provided)
+    if (sessionId && !sessionId.includes('{{') && !sessionId.includes('{')) {
       const supabase = createClient(
         process.env.SUPABASE_URL,
         process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -24,13 +31,32 @@ exports.handler = async (event, context) => {
       
       const { data: pendingVote, error: fetchError } = await supabase
         .from('pending_votes')
-        .select('vote_data')
+        .select('vote_data, session_id')
         .eq('session_id', sessionId)
         .single();
       
       if (!fetchError && pendingVote) {
         voteDetails = pendingVote.vote_data;
         console.log('Retrieved votes from session:', sessionId);
+      }
+    }
+    
+    // Fallback: Get most recent pending vote for this email
+    if ((!voteDetails || Object.keys(voteDetails).length === 0) && email) {
+      const supabase = createClient(
+        process.env.SUPABASE_URL,
+        process.env.SUPABASE_SERVICE_ROLE_KEY
+      );
+      
+      const { data: recentVotes, error: fetchError } = await supabase
+        .from('pending_votes')
+        .select('vote_data, session_id')
+        .order('created_at', { ascending: false })
+        .limit(1);
+      
+      if (!fetchError && recentVotes && recentVotes.length > 0) {
+        voteDetails = recentVotes[0].vote_data;
+        console.log('Retrieved most recent pending votes');
       }
     }
     
@@ -46,7 +72,7 @@ exports.handler = async (event, context) => {
     transaction = {
       reference: reference,
       customer: {
-        email: params.email || params.customer_email || 'unknown@email.com'
+        email: email || 'unknown@email.com'
       }
     };
 
