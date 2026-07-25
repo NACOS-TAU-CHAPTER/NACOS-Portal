@@ -13,4 +13,3 @@
 # Environment variables (set these in Netlify dashboard)
 # SUPABASE_URL
 # SUPABASE_SERVICE_ROLE_KEY
-# SELAR_SECRET_KEY (optional)

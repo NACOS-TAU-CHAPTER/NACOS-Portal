@@ -36,8 +36,8 @@
             <select class="form-select" name="tech-innovator">
               <option value="">Select candidate</option>
               <option value="Akinlotan Victor">Akinlotan Victor</option>
-              <option value="Samuel">Samuel</option>
-              <option value="Nabeel">Nabeel</option>
+              <option value="Adelodun Stephanie">Adelodun Stephanie</option>
+              <option value="Ajayi Erioluwa">Ajayi Eriouluwa</option>
               <option value="Ajetomobi praise">Ajetomobi Praise</option>
             </select>
           </div>
@@ -54,9 +54,9 @@
             <select class="form-select" name="faculty-icon">
               <option value="">Select candidate</option>
               <option value="Hayat">Hayat</option>
-              <option value="Father KD">Father KD</option>
-              <option value="Eri">Eri</option>
-              <option value="Praise">Praise</option>
+              <option value="ibadan">ibadan</option>
+              <option value="Siraj">Siraj</option>
+              <option value="Ajetomobi Praise"> Ajetomobi Praise</option>
             </select>
           </div>
           <div class="col-md-4">
@@ -71,10 +71,10 @@
             <label class="form-label">Sportsman of the Year</label>
             <select class="form-select" name="sportsman">
               <option value="">Select candidate</option>
-              <option value="Al Amen">Al Amen</option>
+              <option value="Al Amen">Al-Ameen</option>
               <option value="Williams">Williams</option>
               <option value="Ibadan">Ibadan</option>
-              <option value="Father KD">Father KD</option>
+              <option value="Hayat">Hayat</option>
             </select>
           </div>
           <div class="col-md-4">
@@ -90,9 +90,9 @@
             <select class="form-select" name="course-rep">
               <option value="">Select candidate</option>
               <option value="Henry">Henry</option>
-              <option value="Faiz">Faiz</option>
+              <option value="Faiz">Faiz </option>
               <option value="Daniel">Daniel</option>
-              <option value="Michael">Michael</option>
+              <option value="Michael">Michael </option>
             </select>
           </div>
           <div class="col-md-4">
@@ -108,10 +108,11 @@
             <select class="form-select" name="best-dressed-male">
               <option value="">Select candidate</option>
               <option value="Tech Kingsley">Tech Kingsley</option>
+              <option value="Olufemi-Abiodun Gbolahan">Olufemi-Abiodun Gbolahan</option>
+              <option value="Awosuru Micheal">Awosuru Micheal</option>
               <option value="Siraj">Siraj</option>
-              <option value="Quayum">Quayum</option>
-              <option value="Femi">Femi</option>
-              <option value="Gbolahan"></option>
+              <option value="cj">Cj</option>
+              <option value ="Femi">Femi</option>
             </select>
           </div>
           <div class="col-md-4">
@@ -126,10 +127,11 @@
             <label class="form-label">Best Dressed Female of the Faculty</label>
             <select class="form-select" name="best-dressed-female">
               <option value="">Select candidate</option>
-              <option value="Stephanie">Stephanie</option>
-              <option value="Daniella">Daniella</option>
               <option value="Khadijah">Khadijah</option>
-              <option value="Ike Oluwa">Ike Oluwa</option>
+              <option value="Daniella">Daniella</option>
+              <option value="Akinwumi Shola">Akinwumi Shola</option>
+              <option value="Jomiloju Oyayinka">Jomiloju Oyayinka</option>
+
             </select>
           </div>
           <div class="col-md-4">
@@ -144,10 +146,10 @@
             <label class="form-label">Most Influential</label>
             <select class="form-select" name="most-influential">
               <option value="">Select candidate</option>
-              <option value="KD">KD</option>
-              <option value="Femi">Femi</option>
+              <option value="Ibadan">Ibadan</option>
+              <option value="Stephanie">Stephanie</option>
               <option value="Siraj">Siraj</option>
-              <option value="Henry">Henry</option>
+              <option value="Hayat">Hayat</option>
             </select>
           </div>
           <div class="col-md-4">
@@ -163,8 +165,8 @@
             <select class="form-select" name="outstanding-executive">
               <option value="">Select candidate</option>
               <option value="Hayat">Hayat</option>
-              <option value="Stephanie">Stephanie</option>
-              <option value="Daniella">Daniella</option>
+              <option value="Daniel">Daniel</option>
+              <option value="Temitayo">Temitayo</option>
               <option value="Ajetomobi Praise">Ajetomobi praise</option>
             </select>
           </div>
@@ -266,62 +268,41 @@
       if (totalVotes === 0) {
         Swal.fire('Error', 'Please cast at least one vote to proceed.', 'error');
         payButton.disabled = false;
-        payButton.innerHTML = 'Proceed To Payment';
+        payButton.innerHTML = 'Submit Votes';
         return;
       }
 
-      // Assume 1 vote = 100 Naira (Change this to your actual rate)
-      const amountToPay = totalVotes * 100;
+      const votePayload = {
+        voteDetails
+      };
 
-      // 2. SELAR INTEGRATION
-      // First, store votes in database and get session ID
       fetch('/.netlify/functions/store_votes', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ voteDetails })
+        body: JSON.stringify(votePayload)
       })
       .then(response => response.json())
       .then(data => {
         if (data.error) {
           throw new Error(data.error);
         }
-        
-        // Your Selar product link with session ID
-        const selarProductUrl = "https://selar.co/6977977p71";
-        const checkoutUrl = `${selarProductUrl}?session_id=${data.sessionId}`;
 
         Swal.fire({
-        title: 'Redirecting to Payment',
-        html: `
-          <p>You are about to pay <strong>₦${amountToPay.toLocaleString()}</strong> for <strong>${totalVotes}</strong> vote${totalVotes > 1 ? 's' : ''}.</p>
-          <div style="text-align: left; margin-top: 15px; padding: 15px; background: #f8f9fa; border-radius: 5px; max-height: 200px; overflow-y: auto;">
-            ${Object.keys(voteDetails).filter(k => !k.includes('-amount')).map(category => {
-              const candidate = voteDetails[category];
-              const amount = voteDetails[`${category}-amount`];
-              return `<div style="padding: 5px 0;"><strong>${category.replace(/-/g, ' ')}:</strong> ${candidate} (${amount} vote${amount > 1 ? 's' : ''})</div>`;
-            }).join('')}
-          </div>
-        `,
-        icon: 'info',
-        showCancelButton: true,
-        confirmButtonText: 'Proceed to Payment',
-        cancelButtonText: 'Cancel',
-        confirmButtonColor: '#1b8c0c'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          // Redirect the user to Selar
-          window.location.href = checkoutUrl;
-        } else {
+          title: 'Votes Submitted',
+          text: 'Your vote selections have been saved successfully.',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        }).then(() => {
           payButton.disabled = false;
-          payButton.innerHTML = 'Proceed To Payment';
-        }
-      });
+          payButton.innerHTML = 'Submit Votes';
+          document.getElementById('votingForm').reset();
+        });
       })
       .catch(error => {
         console.error('Error storing votes:', error);
-        Swal.fire('Error', 'Failed to prepare payment. Please try again.', 'error');
+        Swal.fire('Error', 'Failed to submit votes. Please try again.', 'error');
         payButton.disabled = false;
-        payButton.innerHTML = 'Proceed To Payment';
+        payButton.innerHTML = 'Submit Votes';
       });
     });
   </script>
